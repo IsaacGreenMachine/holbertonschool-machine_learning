@@ -1,2 +1,2 @@
 # math
-Machine Learning math content
+Linear Algebra Part 1!

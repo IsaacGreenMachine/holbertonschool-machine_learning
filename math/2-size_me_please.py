@@ -1,3 +1,7 @@
+#!/usr/bin/env python3
+"""file for matrix_shape function"""
+
+
 def matrix_shape(matrix):
     """returns a list with dimensions of given matrix"""
     # returns a list with the current dimension + all deeper dimensions.

@@ -1,4 +1,9 @@
+#!/usr/bin/env python3
+"""functions for matrix addition"""
+
+
 def add_matrices2D(mat1, mat2):
+    """adds two matricies"""
     if len(mat1) != len(mat2):
         return None
     else:
@@ -13,6 +18,7 @@ def add_matrices2D(mat1, mat2):
 
 
 def add_arrays(arr1, arr2):
+    """adds two arrays"""
     if len(arr1) != len(arr2):
         return None
     else:

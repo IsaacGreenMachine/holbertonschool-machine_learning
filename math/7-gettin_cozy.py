@@ -1,4 +1,9 @@
+#!/usr/bin/env python3
+"""file for cat_matrices2D function"""
+
+
 def cat_matrices2D(mat1, mat2, axis=0):
+    """concats two matrices"""
     if axis == 0:
         if len(mat1[0]) != len(mat2[0]):
             return None

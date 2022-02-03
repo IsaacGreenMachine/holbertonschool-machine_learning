@@ -1,4 +1,9 @@
+#!/usr/bin/env python3
+"""file for mat_mul function"""
+
+
 def mat_mul(mat1, mat2):
+    """executes matrix multiplication on two python 2D arrays"""
     if matrix_shape(mat1)[1] != matrix_shape(mat2)[0]:
         return None
     else:

@@ -1,3 +1,7 @@
+#!/usr/bin/env python3
+"""file for matrix_transpose function"""
+
+
 def matrix_transpose(matrix):
     """returns a transpose of a given matrix"""
     fin_mat = []
