@@ -1,2 +1,2 @@
 # math
-Linear Algebra Part 1!
+Math content for Holberton Machine Learning Specialization
