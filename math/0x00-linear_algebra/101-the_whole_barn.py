@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
-import numpy as np
 """file for add_matrices"""
 
 
 def add_matrices(mat1, mat2):
     """implements numpy add matrices"""
-    m1 = np.array(mat1)
-    m2 = np.array(mat2)
-    if m1.shape == m2.shape:
-        return (m1 + m2).tolist()
-    else:
-        return None
+    pass
+    #m1 = np.array(mat1)
+    #m2 = np.array(mat2)
+    #if m1.shape == m2.shape:
+    #    return (m1 + m2).tolist()
+    #else:
+    #    return None
     '''
     mat1s = matrix_shape(mat1)
     mat2s = matrix_shape(mat2)
