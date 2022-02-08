@@ -7,7 +7,9 @@ def np_slice(matrix, axes={}):
     sliceShape = []
     for ax in range(len(matrix.shape)):
         indicies = (axes.get(ax))
-        if indicies is None or len(indicies) == 0:
+        if type(indicies) is int:
+            sliceShape.append(slice(indicies, None, None))
+        elif indicies is None or len(indicies) == 0:
             sliceShape.append(slice(None, None, None))
         elif len(indicies) == 1:
             sliceShape.append(slice(indicies[0], None, None))
