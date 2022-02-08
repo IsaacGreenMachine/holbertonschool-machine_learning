@@ -4,4 +4,4 @@
 
 def add_matrices(mat1, mat2):
     """implements numpy add matrices"""
-    pass
+    return []
