@@ -5,8 +5,6 @@
 def add_matrices(mat1, mat2):
     """implements numpy add matrices"""
     pass
-    # m1 = np.array(mat1)
-    # m2 = np.array(mat2)
     # if m1.shape == m2.shape:
     #    return (m1 + m2).tolist()
     # else:
