@@ -17,6 +17,7 @@ plt.xlim([0, 20000])
 plt.ylim([0, 1])
 plt.plot(x, y1, '--r', x, y2, '-g')
 plt.legend(['C-14', 'Ra-226'])
+plt.savefig('two.png')
 plt.show()
 
 """

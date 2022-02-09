@@ -65,12 +65,8 @@ axs[2][0].set_xlim([0, 100])
 axs[2][0].set_ylim([0, 30])
 axs[2][0].set_xticks(range(0, 110, 10))
 
-
+plt.savefig('all_in_one.png')
 plt.show()
-
-
-plt.show()
-
 '''
 plt.figure()
 plt.subplot(211)
