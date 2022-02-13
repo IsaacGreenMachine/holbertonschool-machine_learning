@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 def poly_integral(poly, C=0):
     if type(poly) is list and len(poly) > 0 and type(C) is int:
         new_list = []
