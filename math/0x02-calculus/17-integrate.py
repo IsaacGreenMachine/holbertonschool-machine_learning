@@ -8,7 +8,11 @@ def poly_integral(poly, C=0):
         new_list = []
         new_list.append(C)
         for i in range(1, len(poly)+1):
-            new_list.append(poly[i - 1]/i)
+            num = poly[i - 1]/i
+            if num % 1 == 0:
+                new_list.append(int(num))
+            else:
+                new_list.append(num)
         return new_list
     else:
         return None
