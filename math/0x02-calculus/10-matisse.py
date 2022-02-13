@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
+"""module for poly_derivative function"""
+
+
 def poly_derivative(poly):
+    """applies derivative to a polynomial"""
     if type(poly) is not list or len(poly) == 0:
         return None
     elif len(poly) == 1:
