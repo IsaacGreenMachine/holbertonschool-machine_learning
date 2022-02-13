@@ -4,7 +4,7 @@
 
 def poly_integral(poly, C=0):
     """integrates a polynomial"""
-    if type(poly) is list and type(C) is int:  # and len(poly) > 0
+    if type(poly) is list and type(C) is int and len(poly) > 0:
         new_list = []
         new_list.append(C)
         for i in range(1, len(poly)+1):
