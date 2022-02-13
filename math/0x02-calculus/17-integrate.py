@@ -13,6 +13,8 @@ def poly_integral(poly, C=0):
                 new_list.append(int(num))
             else:
                 new_list.append(num)
+        while new_list[-1] == 0 and len(new_list) > 1:
+            new_list.pop(-1)
         return new_list
     else:
         return None
