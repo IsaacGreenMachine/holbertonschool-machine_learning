@@ -32,8 +32,7 @@ class Poisson():
 
     def cdf(self, k):
         """returns CDF for poisson data"""
-        # double check that this is right????????????
-        if k <= 0:
+        if k < 0:
             return 0
         else:
             e = 2.7182818285
