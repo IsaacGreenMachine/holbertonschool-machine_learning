@@ -37,8 +37,8 @@ class Poisson():
         """returns CDF for poisson data"""
         if k < 0:
             return 0
-        # if type(k) is not int:
-        #    k = int(k)
+        if type(k) is not int:
+           k = int(k)
         e = 2.7182818285
         sl = list(range(k+1))
         lmb = self.lambtha
@@ -46,18 +46,6 @@ class Poisson():
         sl = list(map(lambda x: ((e ** nl)*(lmb ** (x)) / self.ft(x)), sl))
         return sum(sl)
 
-    '''
-    def cdf(self, k):
-        """cumulative probability function"""
-        summ = 0
-        if k < 1:
-            return 0
-        if type(k) is not int:
-            k = int(k)
-        for x in range(k + 1):
-            summ += self.pmf(x)
-        return summ
-    '''
     def ft(self, n):
         """returns factorial"""
         fact = 1
