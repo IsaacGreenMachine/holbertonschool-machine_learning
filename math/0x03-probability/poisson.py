@@ -38,7 +38,7 @@ class Poisson():
         if k < 0:
             return 0
         if type(k) is not int:
-           k = int(k)
+            k = int(k)
         e = 2.7182818285
         sl = list(range(k+1))
         lmb = self.lambtha
