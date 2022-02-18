@@ -2,12 +2,10 @@
 """module for exponential class"""
 
 
-from multiprocessing.sharedctypes import Value
-
-
 class Exponential():
     """implements a class exponential distribution capable of stat functions"""
     def __init__(self, data=None, lambtha=1.):
+        """sets lambtha based on data"""
         if data is None:
             if lambtha < 0:
                 raise ValueError("lambtha must be a positive value")
