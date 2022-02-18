@@ -34,6 +34,8 @@ class Poisson():
         """returns CDF for poisson data"""
         if k < 1:
             return 0
+        if type(k) is not int:
+            k = int(k)
         else:
             e = 2.7182818285
             sl = list(range(k+1))
