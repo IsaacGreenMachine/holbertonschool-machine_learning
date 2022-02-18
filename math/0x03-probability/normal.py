@@ -3,7 +3,7 @@
 
 
 class Normal():
-    """implements a normal exponential distribution capable of stat funs"""
+    """implements a normal distribution capable of stat funs"""
     def __init__(self, data=None, mean=0., stddev=1.):
         """sets mean and stddev from data"""
         if data is None:
