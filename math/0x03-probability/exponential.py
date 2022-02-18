@@ -7,7 +7,7 @@ class Exponential():
     def __init__(self, data=None, lambtha=1.):
         """sets lambtha based on data"""
         if data is None:
-            if lambtha < 0:
+            if lambtha <= 0:
                 raise ValueError("lambtha must be a positive value")
             else:
                 self.lambtha = float(lambtha)
@@ -17,7 +17,7 @@ class Exponential():
             elif len(data) < 2:
                 raise ValueError("data must contain multiple values")
             else:
-                self.lambtha = float(1/(sum(data)/len(data)))
+                self.lambtha = 1 / float(sum(data) / len(data))
 
     def pdf(self, x):
         """returns PDF for exponential data"""
