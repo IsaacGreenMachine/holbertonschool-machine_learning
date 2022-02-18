@@ -21,15 +21,16 @@ class Poisson():
                 self.lambtha = float(sum(data)/len(data))
 
     def pmf(self, k):
-        """returns PMF for poisson data"""
-        if k <= 0:
+        """returns PMF for poisson datan"""
+        e = 2.7182818285
+        if k < 0:
             return 0
         else:
             e = 2.7182818285
             k = int(k)
             lmb = self.lambtha
             return (e ** (-1 * lmb))*(lmb ** (k)) / self.ft(k)
-    '''
+
     def cdf(self, k):
         """returns CDF for poisson data"""
         if k < 0:
@@ -42,21 +43,10 @@ class Poisson():
             for i in range(k + 1):
                 lst += self.pmf(i)
             return lst
-    '''
-    def cdf(self, k):
-        """cumulative probability function"""
-        summ = 0
-        if k < 1:
-            return 0
-        if type(k) is not int:
-            k = int(k)
-        for x in range(k + 1):
-            summ += self.pmf(x)
-        return summ
 
     def ft(self, n):
         """returns factorial"""
         fact = 1
-        for num in range(2, n + 1):
+        for num in range(1, n + 1):
             fact *= num
         return fact
