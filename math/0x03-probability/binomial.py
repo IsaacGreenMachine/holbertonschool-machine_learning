@@ -4,11 +4,10 @@
 
 class Binomial():
     """implements a class binomial distribution capable of stat functions"""
-    '''
     def __init__(self, data=None, n=1, p=0.5):
         """sets n and p based off of mean and variance of data"""
         if data is None:
-            if n < 0:
+            if n < 1:
                 raise ValueError("n must be a positive value")
             else:
                 self.n = int(n)
@@ -36,9 +35,9 @@ class Binomial():
     def __init__(self, data=None, n=1, p=0.5):
         """Binomial init"""
         if data is None:
-            if n < 0:
+            if n < 1:
                 raise ValueError("n must be a positive value")
-            if p <= 0 or p > 1:
+            if p <= 0 or p >= 1:
                 raise ValueError("p must be greater than 0 and less than 1")
             self.n = n
             self.p = p
@@ -54,6 +53,7 @@ class Binomial():
             p = 1 - q
             self.n = round(mean / p)
             self.p = mean / self.n
+    '''
 
     def pmf(self, k):
         """returns pmf of binomial dist"""
