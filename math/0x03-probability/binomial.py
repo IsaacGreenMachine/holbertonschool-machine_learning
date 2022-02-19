@@ -4,6 +4,7 @@
 
 class Binomial():
     """implements a class binomial distribution capable of stat functions"""
+    '''
     def __init__(self, data=None, n=1, p=0.5):
         """sets n and p based off of mean and variance of data"""
         if data is None:
@@ -21,14 +22,6 @@ class Binomial():
             elif len(data) < 2:
                 raise ValueError("data must contain multiple values")
             else:
-                nns = []
-                mean = sum(data) / len(data)
-                v = sum([(i - mean) ** 2 for i in data]) / len(data)
-                q = v / mean
-                p = 1 - q
-                self.n = round(mean / p)
-                self.p = mean / self.n
-                '''
                 total = sum(data)
                 leng = len(data)
                 mean = total/leng  # = np
@@ -38,7 +31,32 @@ class Binomial():
                 n_est = (total/p_est) / leng  # " total is p% of n " formula
                 self.n = int(round(n_est))
                 self.p = float(mean/self.n)
-                '''
+    '''
+
+    def __init__(self, data=None, n=1, p=0.5):
+            """Binomial init"""
+            if data is None:
+                if n < 1:
+                    raise ValueError("n must be a positive value")
+                if p <= 0 or p >= 1:
+                    raise ValueError("p must be greater than 0 and less than 1")
+                self.n = n
+                self.p = p
+            else:
+                if type(data) is not list:
+                    raise TypeError("data must be a list")
+                if len(data) < 2:
+                    raise ValueError("data must contain multiple values")
+                nns = []
+                mean = sum(data) / len(data)
+                v = sum([(i - mean) ** 2 for i in data]) / len(data)
+                q = v / mean
+                p = 1 - q
+                self.n = round(mean / p)
+                self.p = mean / self.n
+
+
+
 
     def pmf(self, k):
         """returns pmf of binomial dist"""
