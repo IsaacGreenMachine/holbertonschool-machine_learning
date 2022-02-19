@@ -21,6 +21,14 @@ class Binomial():
             elif len(data) < 2:
                 raise ValueError("data must contain multiple values")
             else:
+                nns = []
+                mean = sum(data) / len(data)
+                v = sum([(i - mean) ** 2 for i in data]) / len(data)
+                q = v / mean
+                p = 1 - q
+                self.n = round(mean / p)
+                self.p = mean / self.n
+                '''
                 total = sum(data)
                 leng = len(data)
                 mean = total/leng  # = np
@@ -30,6 +38,7 @@ class Binomial():
                 n_est = (total/p_est) / leng  # " total is p% of n " formula
                 self.n = int(round(n_est))
                 self.p = float(mean/self.n)
+                '''
 
     def pmf(self, k):
         """returns pmf of binomial dist"""
