@@ -2,9 +2,6 @@
 """module for binomial class"""
 
 
-from pandas import value_counts
-
-
 class Binomial():
     """implements a class binomial distribution capable of stat functions"""
     def __init__(self, data=None, n=1, p=0.5):
