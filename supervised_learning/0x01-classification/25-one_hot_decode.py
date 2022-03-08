@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """module for one hot decode function"""
 import numpy as np
 

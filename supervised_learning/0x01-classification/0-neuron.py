@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """Module for neuron class"""
 import numpy as np
 
