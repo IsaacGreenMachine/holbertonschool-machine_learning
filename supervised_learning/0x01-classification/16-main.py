@@ -2,15 +2,16 @@
 
 import numpy as np
 
-Neuron = __import__('2-neuron').Neuron
+Deep = __import__('16-deep_neural_network').DeepNeuralNetwork
 
 lib_train = np.load('/Users/isaac/Desktop/School/Holberton/MachineLearning/holbertonschool-machine_learning/supervised_learning/0x01-classification/data/Binary_Train.npz')
 X_3D, Y = lib_train['X'], lib_train['Y']
 X = X_3D.reshape((X_3D.shape[0], -1)).T
 
 np.random.seed(0)
-neuron = Neuron(X.shape[0])
-neuron._Neuron__b = 1
-A = neuron.forward_prop(X)
-if (A is neuron.A):
-        print(A)
+deep = Deep(X.shape[0], [5, 3, 1])
+print(deep.cache)
+print(deep.weights)
+print(deep.L)
+deep.L = 10
+print(deep.L)

@@ -2,15 +2,21 @@
 
 import numpy as np
 
-Neuron = __import__('2-neuron').Neuron
+NN = __import__('8-neural_network').NeuralNetwork
 
 lib_train = np.load('/Users/isaac/Desktop/School/Holberton/MachineLearning/holbertonschool-machine_learning/supervised_learning/0x01-classification/data/Binary_Train.npz')
 X_3D, Y = lib_train['X'], lib_train['Y']
 X = X_3D.reshape((X_3D.shape[0], -1)).T
 
 np.random.seed(0)
-neuron = Neuron(X.shape[0])
-neuron._Neuron__b = 1
-A = neuron.forward_prop(X)
-if (A is neuron.A):
-        print(A)
+nn = NN(X.shape[0], 3)
+print(nn.W1)
+print(nn.W1.shape)
+print(nn.b1)
+print(nn.W2)
+print(nn.W2.shape)
+print(nn.b2)
+print(nn.A1)
+print(nn.A2)
+nn.A1 = 10
+print(nn.A1)
