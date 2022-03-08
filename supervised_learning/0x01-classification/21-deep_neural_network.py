@@ -3,27 +3,30 @@
 import numpy as np
 
 
-class DeepNeuralNetwork:
-    """implements a deep nerual network with many layers"""
+class DeepNeuralNetwork():
+    """Defines a deep neural network performing binary classification."""
     def __init__(self, nx, layers):
-        """sets attributes for deep neural network"""
+        """implements a deep nerual network with many layers"""
         if type(nx) is not int:
-            raise TypeError("nx must be an integer")
-        if nx < 1:
-            raise ValueError("nx must be a positive integer")
-        if type(layers) is not list or layers == []:
-            raise TypeError("layers must be a list of positive integers")
-        if not all(type(layer) is int and layer > 0 for layer in layers):
-            raise TypeError("layers must be a list of positive integers")
-        self.__L = len(layers)
-        layers.insert(0, nx)
-        self.__cache = {}
-        self.__weights = {}
-        for layer in range(1, self.L+1):
-            he = np.sqrt(2/(layers[layer - 1]))
-            rnd_val = np.random.randn(layers[layer], layers[layer - 1]) * he
-            self.__weights["W{}".format(layer)] = rnd_val
-            self.__weights["b{}".format(layer)] = np.zeros((layers[layer], 1))
+            raise TypeError('nx must be an integer')
+        elif nx < 1:
+            raise ValueError('nx must be a positive integer')
+        elif type(layers) is not list or len(layers) == 0:
+            raise TypeError('layers must be a list of positive integers')
+        else:
+            self.L = len(layers)
+            self.cache = {}
+            self.weights = {}
+            prev = nx
+            for i in range(len(layers)):
+                if type(layers[i]) is not int or layers[i] < 1:
+                    raise TypeError(
+                        'layers must be a list of positive integers')
+                w = np.random.randn(layers[i], prev) * np.sqrt(2/prev)
+                prev = layers[i]
+                self.weights['W{}'.format(i + 1)] = w
+                dim = len(self.weights['W{}'.format(i + 1)])
+                self.weights['b{}'.format(i + 1)] = np.zeros((dim, 1))
 
     @property
     def L(self):
