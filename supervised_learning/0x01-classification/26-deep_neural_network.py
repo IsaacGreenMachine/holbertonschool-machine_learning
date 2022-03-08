@@ -124,10 +124,14 @@ class DeepNeuralNetwork():
 
     def save(self, filename):
         """serializes instance to file filename using pickle"""
-        if filename[-4:] != ".pkl":
-            filename += ".pkl"
-        with open(filename, 'wb') as f:
-            pickle.dump(self, f)
+        ext = ".pkl"
+        if ext not in filename:
+            filename += ext
+        try:
+            with open(filename, "wb") as file:
+                pickle.dump(self, file)
+        except Exception:
+            return None
 
     def load(filename):
         """deserializes instance from file filename using pickle"""
