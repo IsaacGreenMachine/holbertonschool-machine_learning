@@ -1,27 +1,12 @@
 #!/usr/bin/env python3
-"""
-Contains the class DeepNeuralNetwork.
-"""
+"""Contains the class DeepNeuralNetwork."""
 import numpy as np
 
 
 class DeepNeuralNetwork():
-    """
-    Defines a deep neural network performing binary classification.
-    """
+    """Defines a deep neural network performing binary classification."""
     def __init__(self, nx, layers):
-        """
-        * @nx: number of input features
-            * Must be int. Must be > 0.
-        * @layers: list representing # of nodes in each layer of network.
-            * Must be list. Must NOT be empty.
-            * 1st value represents the number of nodes in the first layer.
-            * Elements must ALL be positive integers.
-        Sets the public instance attributes:
-            * L: # of layers in neural network.
-            * cache: dict to hold all intermediary values of network.
-            * weights: dict to hold weights and biases of network.
-        """
+        """implements a deep nerual network with many layers"""
         if type(nx) is not int:
             raise TypeError('nx must be an integer')
         elif nx < 1:
