@@ -33,12 +33,8 @@ class Neuron:
     def forward_prop(self, X):
         """implements single run of forward propagation"""
         z = np.matmul(self.W, X) + self.b
-        self.__A = self.sigmoid_act(z)
+        self.__A = (1/(1 + np.exp(-z)))
         return self.A
-
-    def sigmoid_act(self, x):
-        """applies sigmoid activation function"""
-        return (1/(1 + np.exp(x)))
 
     def cost(self, Y, A):
         """returns cost function of network"""
