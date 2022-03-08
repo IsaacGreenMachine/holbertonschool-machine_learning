@@ -7,7 +7,7 @@ import pickle
 
 class DeepNeuralNetwork():
     """Defines a deep neural network performing binary classification."""
-    def __init__(self, nx, layers):
+    def __init__(self, nx, layers, activation='sig'):
         """implements a deep nerual network with many layers"""
         if type(nx) is not int:
             raise TypeError('nx must be an integer')
@@ -15,7 +15,10 @@ class DeepNeuralNetwork():
             raise ValueError('nx must be a positive integer')
         elif type(layers) is not list or len(layers) == 0:
             raise TypeError('layers must be a list of positive integers')
+        elif activation not in ["sig", "tanh"]:
+            raise ValueError("activation must be 'sig' or 'tanh'")
         else:
+            self.__activation = activation
             self.__L = len(layers)
             self.__cache = {}
             self.__weights = {}
@@ -45,6 +48,11 @@ class DeepNeuralNetwork():
         """getter for weights"""
         return self.__weights
 
+    @property
+    def activation(self):
+        """getter for activation"""
+        return self.__activation
+
     def forward_prop(self, X):
         """single run of forward propagation (multiclass) for deep nn"""
         self.__cache.update({"A0": X})
@@ -57,7 +65,12 @@ class DeepNeuralNetwork():
                 t = np.exp(z)
                 self.__cache["A{}".format(layer)] = t/np.sum(t, axis=0)
             else:
-                self.__cache["A{}".format(layer)] = 1 / (1 + np.exp(-z))
+                if self.activation == "sig":
+                    self.__cache["A{}".format(layer)] = 1 / (1 + np.exp(-z))
+                elif self.activation == "tanh":
+                    top = np.exp(z) - np.exp(-z)
+                    bot = np.exp(z) + np.exp(-z)
+                    self.__cache["A{}".format(layer)] = top / bot
         return self.cache["A{}".format(self.L)], self.cache
 
     def cost(self, Y, A):
@@ -81,11 +94,14 @@ class DeepNeuralNetwork():
         """implements back propagation for deep nn"""
         m = Y.shape[1]
         for layer in range(self.L, 0, -1):
+            a = cache["A{}".format(layer)]
             if layer == self.L:
                 dz = (cache["A{}".format(layer)] - Y)
             else:
-                a = cache["A{}".format(layer)]
-                dz = da * a * (1 - a)
+                if self.activation == "sig":
+                    dz = da * a * (1 - a)
+                if self.activation == "tanh":
+                    dz = da * (1 - np.square(a))
             dw = np.matmul(dz, cache["A{}".format(layer-1)].T) / m
             db = np.sum(dz, axis=1, keepdims=True) / m
             da = np.matmul(self.weights["W{}".format(layer)].T, dz)
