@@ -86,6 +86,13 @@ class Neuron:
                 if graph:
                     graphx.append(i)
                     graphy.append(currCost)
+        if (verbose or graph) and i % step != 0:
+                currCost = self.cost(Y, self.A)
+                if verbose:
+                    print("Cost after {} iterations: {}".format(i, currCost))
+                if graph:
+                    graphx.append(i)
+                    graphy.append(currCost)
         if graph:
             plt.plot(graphx, graphy)
             plt.xlabel("iteration")
