@@ -1,5 +1,4 @@
 """module for forward_prop function"""
-import numpy as np
 import tensorflow as tf
 
 

@@ -1,5 +1,4 @@
 """module for calculate_loss function"""
-import numpy as np
 import tensorflow as tf
 
 

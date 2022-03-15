@@ -1,5 +1,4 @@
 """module for create_placeholders function"""
-import numpy as np
 import tensorflow as tf
 
 

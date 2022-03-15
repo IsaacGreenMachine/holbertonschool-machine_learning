@@ -1,5 +1,4 @@
 """module for calculate_accuracy function"""
-import numpy as np
 import tensorflow as tf
 
 

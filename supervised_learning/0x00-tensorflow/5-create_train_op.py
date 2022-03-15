@@ -1,5 +1,4 @@
 """module for create_train_op function"""
-import numpy as np
 import tensorflow as tf
 
 
