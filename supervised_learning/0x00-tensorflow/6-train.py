@@ -34,15 +34,15 @@ def train(X_train,
     tf.add_to_collection('train_op', train_op)
     for i in range(iterations+1):
         if i % 100 == 0 or i == iterations:
-            train_loss, train_accuracy = sess.run(
-            (loss, accuracy), feed_dict={x: X_train, y:  Y_train})
-            val_loss, val_accuracy = sess.run(
-            (loss, accuracy), feed_dict={x: X_valid, y: Y_valid})
+            tLoss, tAccuracy = sess.run((loss, accuracy),
+                                        feed_dict={x: X_train, y:  Y_train})
+            vLoss, vAccuracy = sess.run((loss, accuracy),
+                                        feed_dict={x: X_valid, y: Y_valid})
             print("After {} iterations:".format(i))
-            print("\tTraining Cost: {}".format(train_loss))
-            print("\tTraining Accuracy: {}".format(train_accuracy))
-            print("\tValidation Cost: {}".format(val_loss))
-            print("\tValidation Accuracy: {}".format(val_accuracy))
+            print("\tTraining Cost: {}".format(tLoss))
+            print("\tTraining Accuracy: {}".format(tAccuracy))
+            print("\tValidation Cost: {}".format(vLoss))
+            print("\tValidation Accuracy: {}".format(vAccuracy))
         if i < iterations:
             sess.run((train_op), feed_dict={x: X_train, y: Y_train})
     saver = tf.train.Saver()
