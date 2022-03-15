@@ -33,18 +33,17 @@ def train(X_train,
     tf.add_to_collection('accuracy', accuracy)
     tf.add_to_collection('train_op', train_op)
     for i in range(iterations+1):
-        # still need to print i = 0:
-        train_loss, train_accuracy = sess.run(
+        if i % 100 == 0 or i == iterations:
+            train_loss, train_accuracy = sess.run(
             (loss, accuracy), feed_dict={x: X_train, y:  Y_train})
-        val_loss, val_accuracy = sess.run(
+            val_loss, val_accuracy = sess.run(
             (loss, accuracy), feed_dict={x: X_valid, y: Y_valid})
-        if i < iterations:
-            sess.run((train_op), feed_dict={x: X_train, y: Y_train})
-        if i == 0 or i % 100 == 0 or (i == iterations and i % 100 != 0):
             print("After {} iterations:".format(i))
             print("\tTraining Cost: {}".format(train_loss))
             print("\tTraining Accuracy: {}".format(train_accuracy))
             print("\tValidation Cost: {}".format(val_loss))
             print("\tValidation Accuracy: {}".format(val_accuracy))
+        if i < iterations:
+            sess.run((train_op), feed_dict={x: X_train, y: Y_train})
     saver = tf.train.Saver()
     return saver.save(sess, save_path)
