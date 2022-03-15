@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """module for calculate_accuracy function"""
 import tensorflow as tf
 

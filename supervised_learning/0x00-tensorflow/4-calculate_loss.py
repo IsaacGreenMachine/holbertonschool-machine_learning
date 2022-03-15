@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """module for calculate_loss function"""
 import tensorflow as tf
 

@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """module for forward_prop function"""
 import tensorflow as tf
 
