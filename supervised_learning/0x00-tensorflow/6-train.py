@@ -25,13 +25,13 @@ def train(X_train,
     accuracy = calculate_accuracy(y, y_pred)
     train_op = create_train_op(loss, alpha)
     init = tf.global_variables_initializer()
-    sess.run(init)
     tf.add_to_collection('x', x)
     tf.add_to_collection('y', y)
     tf.add_to_collection('y_pred', y_pred)
     tf.add_to_collection('loss', loss)
     tf.add_to_collection('accuracy', accuracy)
     tf.add_to_collection('train_op', train_op)
+    sess.run(init)
     for i in range(iterations+1):
         if i % 100 == 0 or i == iterations:
             tLoss, tAccuracy = sess.run((loss, accuracy),
