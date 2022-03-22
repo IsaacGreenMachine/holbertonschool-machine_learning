@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 """module for normalization constants"""
-import numpy as np
-import tensorflow as tf
 
 
 def update_variables_Adam(alpha, beta1, beta2, epsilon, var, grad, v, s, t):
