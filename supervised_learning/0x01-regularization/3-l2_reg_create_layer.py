@@ -20,3 +20,4 @@ def l2_reg_create_layer(prev, n, activation, lambtha):
                              activation=activation,
                              kernel_regularizer=reg,
                              kernel_initializer=init)
+    return l2_lay(prev)
