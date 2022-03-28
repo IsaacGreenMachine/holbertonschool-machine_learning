@@ -24,10 +24,13 @@ def dropout_forward_prop(X, weights, L, keep_prob):
     for layer in range(1, L+1):
         w = weights["W{}".format(layer)]
         a = outputs["A{}".format(layer-1)]
-        dx = np.random.rand(a.shape[0], a.shape[1]) < keep_prob
-        outputs["D{}".format(layer)] = dx*1
-        a *= dx
-        a /= keep_prob
+
+        if layer < L:
+            dx = np.random.rand(a.shape[0], a.shape[1]) < keep_prob
+            outputs["D{}".format(layer)] = dx*1
+            a *= dx
+            a /= keep_prob
+
         b = weights["b{}".format(layer)]
         z = np.matmul(w, a) + b
         if layer == L:
