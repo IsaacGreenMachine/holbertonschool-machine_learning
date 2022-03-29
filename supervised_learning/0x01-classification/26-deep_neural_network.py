@@ -126,7 +126,7 @@ class DeepNeuralNetwork():
         """serializes instance to file filename using pickle"""
         if filename[-4:] != ".pkl":
             filename += ".pkl"
-        with open(filename, 'wb+') as f:
+        with open(filename, 'wb') as f:
             pickle.dump(self, f)
 
     def load(filename):
