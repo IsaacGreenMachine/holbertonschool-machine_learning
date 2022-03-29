@@ -24,9 +24,6 @@ def dropout_gradient_descent(Y, weights, cache, alpha, keep_prob, L):
     m = Y.shape[1]
     for layer in range(L, 0, -1):
         a = cache["A{}".format(layer)]
-        dx = np.random.rand(a.shape[0], a.shape[1]) < keep_prob
-        a *= dx
-        a /= keep_prob
         if layer == L:
             dz = (cache["A{}".format(layer)] - Y)
         else:
@@ -34,6 +31,11 @@ def dropout_gradient_descent(Y, weights, cache, alpha, keep_prob, L):
         dw = np.matmul(dz, cache["A{}".format(layer-1)].T) / m
         db = np.sum(dz, axis=1, keepdims=True) / m
         da = np.matmul(weights["W{}".format(layer)].T, dz)
+
+        dx = np.random.rand(da.shape[0], da.shape[1]) < keep_prob
+        da *= dx
+        da /= keep_prob
+
         new_w = weights["W{}".format(layer)] - (alpha * dw)
         new_b = weights["b{}".format(layer)] - (alpha * db)
         weights["W{}".format(layer)] = new_w
