@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 """module for train function"""
+
+
 import tensorflow as tf
 calculate_accuracy = __import__('3-calculate_accuracy').calculate_accuracy
 calculate_loss = __import__('4-calculate_loss').calculate_loss
