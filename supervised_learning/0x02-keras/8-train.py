@@ -38,20 +38,17 @@ def train_model(network, data, labels, batch_size, epochs,
     filepath - file path where the model should be saved
     Returns: the History object generated after training the model
     """
-    earlystop = early_stopping
-    if earlystop and validation_data:
-        earlystop = K.callbacks.EarlyStopping(patience=patience,
-                                              verbose=verbose)
-    decay = learning_rate_decay
-    if decay and validation_data:
+    callbacks = []
+    if early_stopping and validation_data:
+        callbacks.append(K.callbacks.EarlyStopping(patience=patience))
+    if learning_rate_decay and validation_data:
         def sched(epoch):
             """Learning rate scheduler"""
             return alpha / (1+epoch*decay_rate)
-        decay = K.callbacks.LearningRateScheduler(sched, verbose=verbose)
-    save = save_best
-    if save:
-        save = K.callbacks.ModelCheckpoint(filepath, verbose=verbose,
-                                           save_best_only=True)
+        callbacks.append(K.callbacks.LearningRateScheduler(sched))
+    if save_best:
+        callbacks.append(K.callbacks.ModelCheckpoint(filepath,
+                                                     save_best_only=True))
     return network.fit(
         x=data,
         y=labels,
@@ -60,5 +57,5 @@ def train_model(network, data, labels, batch_size, epochs,
         verbose=verbose,
         shuffle=shuffle,
         validation_data=validation_data,
-        callbacks=[earlystop, decay, save]
+        callbacks=callbacks
     )
