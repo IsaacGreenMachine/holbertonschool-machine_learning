@@ -40,8 +40,7 @@ def train_model(network, data, labels, batch_size, epochs,
         def sched(epoch):
             """Learning rate scheduler"""
             return alpha / (1+epoch*decay_rate)
-        callbacks.append(K.callbacks.LearningRateScheduler(sched,
-                                                           verbose=verbose))
+        callbacks.append(K.callbacks.LearningRateScheduler(sched))
     return network.fit(
         x=data,
         y=labels,
