@@ -28,8 +28,7 @@ def train_model(network, data, labels, batch_size, epochs,
 
     earlystop = early_stopping
     if earlystop and validation_data:
-        earlystop = K.callbacks.EarlyStopping(patience=patience,
-                                              verbose=verbose)
+        earlystop = K.callbacks.EarlyStopping(patience=patience)
     return network.fit(
         x=data,
         y=labels,
