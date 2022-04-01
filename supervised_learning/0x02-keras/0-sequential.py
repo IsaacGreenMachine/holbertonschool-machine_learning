@@ -16,7 +16,11 @@ def build_model(nx, layers, activations, lambtha, keep_prob):
     Returns: the keras model
     """
     model = K.Sequential()
-    model.add(K.layers.InputLayer(nx,))
+    model.add(K.layers.Dense(layers[0], activation=activations[0],
+                             kernel_regularizer=K.regularizers.l2(lambtha),
+                             input_shape=(nx,)
+                             ))
+
     for i in range(len(layers)):
         model.add(K.layers.Dense(
             layers[i],
