@@ -33,16 +33,15 @@ def train_model(network, data, labels, batch_size, epochs,
     decay_rate - decay rate
     Returns: the History object generated after training the model
     """
-    earlystop = early_stopping
-    if earlystop and validation_data:
-        earlystop = K.callbacks.EarlyStopping(
-            patience=patience, verbose=verbose)
-    decay = learning_rate_decay
-    if decay and validation_data:
+    callbacks = []
+    if early_stopping and validation_data:
+        callbacks.append(K.callbacks.EarlyStopping(patience=patience))
+    if learning_rate_decay and validation_data:
         def sched(epoch):
             """Learning rate scheduler"""
             return alpha / (1+epoch*decay_rate)
-        decay = K.callbacks.LearningRateScheduler(sched, verbose=verbose)
+        callbacks.append(K.callbacks.LearningRateScheduler(sched,
+                                                           verbose=verbose))
     return network.fit(
         x=data,
         y=labels,
@@ -51,5 +50,5 @@ def train_model(network, data, labels, batch_size, epochs,
         verbose=verbose,
         shuffle=shuffle,
         validation_data=validation_data,
-        callbacks=[earlystop, decay]
+        callbacks=callbacks
     )
