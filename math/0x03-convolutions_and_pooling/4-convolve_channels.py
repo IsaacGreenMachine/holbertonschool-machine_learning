@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """module for convolve_channels"""
 import numpy as np
-from math import ceil, floor
 
 
 def convolve_channels(images, kernel, padding='same', stride=(1, 1)):
@@ -44,8 +43,9 @@ def convolve_channels(images, kernel, padding='same', stride=(1, 1)):
     else:
         ph, pw = (0, 0)
 
-    conv_size_x = floor(((iw - kw + (2 * pw))/sw) + 1)
-    conv_size_y = floor(((ih - kh + (2 * ph))/sh) + 1)
+    conv_size_x = (iw - kw + (2 * pw)) // sw + 1
+    conv_size_y = (ih - kh + (2 * ph)) // sh + 1
+
     conv = np.ndarray((im, conv_size_y, conv_size_x))
 
     for x in range(conv_size_x):
