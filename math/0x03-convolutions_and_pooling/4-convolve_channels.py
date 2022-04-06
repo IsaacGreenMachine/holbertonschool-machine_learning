@@ -38,21 +38,20 @@ def convolve_channels(images, kernel, padding='same', stride=(1, 1)):
     elif padding == "same":
         ph = (((ih - 1) * sh) + kh - ih) // 2 + 1
         pw = (((iw - 1) * sw) + kw - iw) // 2 + 1
-    else:
-        ph, pw = (0, 0)
+    elif padding == "valid":
+        ph, pw = 0, 0
 
-    images = np.pad(images, ((0, 0), (pw, pw), (ph, ph), (0, 0)))
+    images = np.pad(images, ((0,), (pw,), (ph,), (0,)))
 
     conv_size_x = (iw - kw + (2 * pw)) // sw + 1
     conv_size_y = (ih - kh + (2 * ph)) // sh + 1
 
-    conv = np.ndarray((im, conv_size_y, conv_size_x))
+    conv = np.zeros((im, conv_size_y, conv_size_x))
 
     for x in range(conv_size_x):
         for y in range(conv_size_y):
             conv[:, y, x] = np.sum(images[:,
                                           y*sh:y*sh+kh,
-                                          x*sw:x*sw+kw,
-                                          0:kc] * kernel,
+                                          x*sw:x*sw+kw] * kernel,
                                    axis=(1, 2, 3))
     return conv
