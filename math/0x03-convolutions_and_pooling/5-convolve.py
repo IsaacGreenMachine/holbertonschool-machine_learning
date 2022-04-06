@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """module for convolve"""
 import numpy as np
-from math import ceil, floor
 
 
 def convolve(images, kernels, padding='same', stride=(1, 1)):
@@ -37,16 +36,18 @@ def convolve(images, kernels, padding='same', stride=(1, 1)):
     sh, sw = stride
 
     if type(padding) is tuple:
-        ph, pw = padding.shape
-        images = np.pad(images, ((0, 0), (ph, ph), (pw, pw)))
+        ph, pw = padding
     elif padding == "same":
-        ph, pw = (1, 1)
-        images = np.pad(images, ((0, 0), (ph, ph), (pw, pw)))
-    else:
-        ph, pw = (0, 0)
+        ph = (((ih - 1) * sh) + kh - ih) // 2 + 1
+        pw = (((iw - 1) * sw) + kw - iw) // 2 + 1
+    elif padding == "valid":
+        ph, pw = 0, 0
 
-    conv_size_x = floor(((iw - kw + (2 * pw))/sw) + 1)
-    conv_size_y = floor(((ih - kh + (2 * ph))/sh) + 1)
+    images = np.pad(images, ((0, 0), (ph, ph), (pw, pw), (0, 0)))
+
+    conv_size_x = (iw - kw + (2 * pw)) // sw + 1
+    conv_size_y = (ih - kh + (2 * ph)) // sh + 1
+
     conv = np.ndarray((im, conv_size_y, conv_size_x, knc))
 
     for x in range(conv_size_x):
