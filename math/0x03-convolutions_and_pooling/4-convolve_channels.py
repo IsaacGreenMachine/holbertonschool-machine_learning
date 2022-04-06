@@ -35,13 +35,13 @@ def convolve_channels(images, kernel, padding='same', stride=(1, 1)):
 
     if type(padding) is tuple:
         ph, pw = padding.shape
-        images = np.pad(images, ((0, 0), (pw, pw), (ph, ph)))
     elif padding == "same":
         ph = (((ih - 1) * sh) + kh - ih) // 2 + 1
         pw = (((iw - 1) * sw) + kw - iw) // 2 + 1
-        images = np.pad(images, ((0, 0), (pw, pw), (ph, ph)))
     else:
         ph, pw = (0, 0)
+
+    images = np.pad(images, ((0, 0), (pw, pw), (ph, ph), (0, 0)))
 
     conv_size_x = (iw - kw + (2 * pw)) // sw + 1
     conv_size_y = (ih - kh + (2 * ph)) // sh + 1
