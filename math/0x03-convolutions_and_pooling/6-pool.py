@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """module for pool"""
 import numpy as np
-from math import ceil, floor
 
 
 def pool(images, kernel_shape, stride, mode='max'):
@@ -26,11 +25,11 @@ def pool(images, kernel_shape, stride, mode='max'):
     Returns: a numpy.ndarray containing the pooled images
     """
     im, ih, iw, ic = images.shape
-    kh, kw, = kernel_shape.shape
+    kh, kw, = kernel_shape
     sh, sw = stride
 
-    conv_size_x = floor(((iw - kw)/sw) + 1)
-    conv_size_y = floor(((ih - kh)/sh) + 1)
+    conv_size_x = ((iw - kw) // sw + 1)
+    conv_size_y = ((ih - kh) // sh + 1)
     conv = np.ndarray((im, conv_size_y, conv_size_x, ic))
 
     for x in range(conv_size_x):
