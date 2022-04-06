@@ -19,6 +19,7 @@ def convolve_grayscale_valid(images, kernel):
     Returns: numpy.ndarray containing the convolved images
     """
 
+    '''
     conv_size_h = images.shape[1]-kernel.shape[0]+1
     conv_size_w = images.shape[2]-kernel.shape[1]+1
     conv = np.zeros((images.shape[0], conv_size_h, conv_size_w))
@@ -33,18 +34,17 @@ def convolve_grayscale_valid(images, kernel):
     return conv
 
     '''
-    samples, samp_h, samp_w = images.shape
-    filter_h, filter_w = kernel.shape
+    im, ih, iw = images.shape
+    kh, kw = kernel.shape
 
-    dim_h = samp_h - filter_h + 1
-    dim_w = samp_w - filter_w + 1
+    dim_h = ih - kh + 1
+    dim_w = iw - kw + 1
 
-    conv = np.zeros((samples, dim_h, dim_w))
+    conv = np.zeros((im, dim_h, dim_w))
 
-    for w in range(dim_h):
-        for h in range(dim_w):
+    for w in range(dim_w):
+        for h in range(dim_h):
             conv[:, w, h] = (
-                kernel * images[:, w: w+filter_w, h:h+filter_h]
+                kernel * images[:, w: w+kw, h:h+kh]
                 ).sum(axis=(1, 2))
     return conv
-    '''
