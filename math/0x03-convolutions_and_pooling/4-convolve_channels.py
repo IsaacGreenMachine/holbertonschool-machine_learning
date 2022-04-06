@@ -32,7 +32,7 @@ def convolve_channels(images, kernel, padding='same', stride=(1, 1)):
     """
     im, ih, iw, ic = images.shape
     kh, kw, kc = kernel.shape
-    sh, sw = stride.shape
+    sh, sw = stride
 
     if type(padding) is tuple:
         ph, pw = padding.shape

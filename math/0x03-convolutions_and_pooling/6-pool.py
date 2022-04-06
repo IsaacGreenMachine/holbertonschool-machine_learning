@@ -27,7 +27,7 @@ def pool(images, kernel_shape, stride, mode='max'):
     """
     im, ih, iw, ic = images.shape
     kh, kw, = kernel_shape.shape
-    sh, sw = stride.shape
+    sh, sw = stride
 
     conv_size_x = floor(((iw - kw)/sw) + 1)
     conv_size_y = floor(((ih - kh)/sh) + 1)
