@@ -15,9 +15,10 @@ def lenet5(X):
         - accuracy metrics
     """
 
-    """
+
     model = K.Sequential()
 
+    init = K.initializers.he_normal()
     # input layer
     model.add(X)
 
@@ -26,7 +27,7 @@ def lenet5(X):
                               5,
                               padding="same",
                               activation="relu",
-                              kernel_initializer='HeNormal'))
+                              kernel_initializer=init))
 
     # Max pooling layer with kernels of shape 2x2 with 2x2 strides
     model.add(K.layers.MaxPooling2D(2, 2))
@@ -36,7 +37,7 @@ def lenet5(X):
                               5,
                               padding="valid",
                               activation="relu",
-                              kernel_initializer='HeNormal'))
+                              kernel_initializer=init))
 
     # Max pooling layer with kernels of shape 2x2 with 2x2 strides
     model.add(K.layers.MaxPooling2D(2, 2))
@@ -47,17 +48,17 @@ def lenet5(X):
     # Fully connected layer with 120 nodes
     model.add(K.layers.Dense(120,
                              activation='relu',
-                             kernel_initializer='HeNormal'))
+                             kernel_initializer=init))
 
     # Fully connected layer with 84 nodes
     model.add(K.layers.Dense(84,
                              activation='relu',
-                             kernel_initializer='HeNormal'))
+                             kernel_initializer=init))
 
     # Fully connected softmax output layer with 10 nodes
     model.add(K.layers.Dense(10,
                              activation='softmax',
-                             kernel_initializer='HeNormal'))
+                             kernel_initializer=init))
 
     # adam opt
     opt = K.optimizers.Adam()
@@ -92,3 +93,4 @@ def lenet5(X):
                      loss='categorical_crossentropy',
                      metrics=['accuracy'])
     return newModel
+    """
