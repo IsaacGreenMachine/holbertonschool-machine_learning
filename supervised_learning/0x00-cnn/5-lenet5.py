@@ -15,7 +15,6 @@ def lenet5(X):
         - accuracy metrics
     """
 
-
     model = K.Sequential()
 
     init = K.initializers.he_normal()
