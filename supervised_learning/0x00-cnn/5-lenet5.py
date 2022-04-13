@@ -20,6 +20,7 @@ def lenet5(X):
     model.add(K.layers.Conv2D(6,
                               5,
                               padding="same",
+                              activation="relu",
                               kernel_initializer='HeNormal'))
 
     # Max pooling layer with kernels of shape 2x2 with 2x2 strides
@@ -29,6 +30,7 @@ def lenet5(X):
     model.add(K.layers.Conv2D(16,
                               5,
                               padding="valid",
+                              activation="relu",
                               kernel_initializer='HeNormal'))
 
     # Max pooling layer with kernels of shape 2x2 with 2x2 strides
