@@ -16,6 +16,10 @@ def lenet5(X):
     """
 
     model = K.Sequential()
+
+    # input layer
+    model.add(X)
+
     # Convolutional layer with 6 kernels of shape 5x5 with same padding
     model.add(K.layers.Conv2D(6,
                               5,
