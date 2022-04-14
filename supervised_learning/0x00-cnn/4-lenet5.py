@@ -100,12 +100,14 @@ def lenet5(x, y):
         dense1, units=84, kernel_initializer=init, activation='relu'
         )
 
-    dense3 = tf.layers.dense(dense2, units=10, kernel_initializer=init)
+    dense3 = tf.layers.dense(
+        dense2, units=10, kernel_initializer=init, activation='softmax')
+
     prediction = dense3
 
     loss = tf.losses.softmax_cross_entropy(y, dense3)
     Adam = tf.train.AdamOptimizer().minimize(loss)
     correct = tf.equal(tf.argmax(y, 1), tf.argmax(prediction, 1))
     accuracy = tf.reduce_mean(tf.cast(correct, tf.float32))
-    softmax = tf.nn.softmax(prediction)
-    return softmax, Adam, loss, accuracy
+    # softmax = tf.nn.softmax(prediction)
+    return dense3, Adam, loss, accuracy
