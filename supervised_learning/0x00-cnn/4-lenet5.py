@@ -23,44 +23,40 @@ def lenet5(x, y):
     he_norm = tf.initializers.variance_scaling()
 
     # Convolutional layer with 6 kernels of shape 5x5 with same padding
-    conv1 = tf.layers.conv2d(x,
-                             6,
+    conv1 = tf.layers.Conv2D(6,
                              5,
                              padding='same',
                              activation='relu',
-                             kernel_initializer=he_norm)
+                             kernel_initializer=he_norm)(x)
 
     # Max pooling layer with kernels of shape 2x2 with 2x2 strides
-    pool1 = tf.layers.max_pooling2d(conv1, 2, 2)
+    pool1 = tf.layers.MaxPooling2D(2, 2)(conv1)
 
     # Convolutional layer with 16 kernels of shape 5x5 with valid padding
-    conv2 = tf.layers.conv2d(pool1,
-                             16,
+    conv2 = tf.layers.Conv2D(16,
                              5,
                              padding='valid',
                              activation='relu',
-                             kernel_initializer=he_norm)
+                             kernel_initializer=he_norm)(pool1)
 
     # Max pooling layer with kernels of shape 2x2 with 2x2 strides
-    pool2 = tf.layers.max_pooling2d(conv2, 2, 2)
+    pool2 = tf.layers.MaxPooling2D(2, 2)(conv2)
 
-    pool2_flat = tf.layers.flatten(pool2)
+    # flatten output of convolutions for densely connected layers
+    pool2_flat = tf.layers.Flatten()(pool2)
 
     # Fully connected layer with 120 nodes
-    dense1 = tf.layers.dense(pool2_flat,
-                             120,
+    dense1 = tf.layers.Dense(120,
                              activation='relu',
                              kernel_initializer=he_norm)
 
     # Fully connected layer with 84 nodes
-    dense2 = tf.layers.dense(dense1,
-                             84,
+    dense2 = tf.layers.Dense(84,
                              activation='relu',
                              kernel_initializer=he_norm)
 
     # Fully connected softmax output layer with 10 nodes
-    dense3 = tf.layers.dense(dense2,
-                             10,
+    dense3 = tf.layers.Dense(10,
                              activation='softmax',
                              kernel_initializer=he_norm)
 
@@ -68,7 +64,7 @@ def lenet5(x, y):
     loss = tf.losses.softmax_cross_entropy(y, dense3)
 
     # adam optimizer
-    opt = tf.train.AdamOptimizer()
+    opt = tf.train.AdamOptimizer().minimize(loss)
 
     # accuracy
     y_out = tf.argmax(y, axis=1)
