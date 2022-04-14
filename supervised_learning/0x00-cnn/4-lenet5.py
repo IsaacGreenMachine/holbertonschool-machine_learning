@@ -19,23 +19,32 @@ def lenet5(x, y):
     a tensor for the accuracy of the network
     """
 
+    # he_norm weight initializer
+    he_norm = tf.initializers.variance_scaling()
+
     # Convolutional layer with 6 kernels of shape 5x5 with same padding
-    conv1 = tf.layers.conv2d(x, 6, 5, padding='same')
+    conv1 = tf.layers.conv2d(x,
+                             6,
+                             5,
+                             padding='same',
+                             activation='relu',
+                             kernel_initializer=he_norm)
 
     # Max pooling layer with kernels of shape 2x2 with 2x2 strides
     pool1 = tf.layers.max_pooling2d(conv1, 2, 2)
 
     # Convolutional layer with 16 kernels of shape 5x5 with valid padding
-    conv2 = tf.layers.conv2d(pool1, 16, 5, padding='valid')
+    conv2 = tf.layers.conv2d(pool1,
+                             16,
+                             5,
+                             padding='valid',
+                             activation='relu',
+                             kernel_initializer=he_norm)
 
     # Max pooling layer with kernels of shape 2x2 with 2x2 strides
     pool2 = tf.layers.max_pooling2d(conv2, 2, 2)
 
     pool2_flat = tf.layers.flatten(pool2)
-
-    # initializer for dense layers
-    # he_norm = tf.initializers.he_normal()
-    he_norm = tf.initializers.variance_scaling()
 
     # Fully connected layer with 120 nodes
     dense1 = tf.layers.dense(pool2_flat,
