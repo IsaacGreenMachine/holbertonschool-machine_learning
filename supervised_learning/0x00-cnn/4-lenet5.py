@@ -19,47 +19,43 @@ def lenet5(x, y):
     a tensor for the accuracy of the network
     """
 
-    """
-    # he_norm weight initializer
-    he_norm = tf.initializers.variance_scaling()
+    # he_norm weight initializer for layers
+    init = tf.contrib.layers.variance_scaling_initializer()
 
     # Convolutional layer with 6 kernels of shape 5x5 with same padding
-    conv1 = tf.layers.Conv2D(6,
-                             5,
-                             padding='same',
-                             activation='relu',
-                             kernel_initializer=he_norm)(x)
+    conv1 = tf.layers.conv2d(
+        x, filters=6, kernel_size=5, padding='same',
+        activation='relu', kernel_initializer=init
+    )
 
     # Max pooling layer with kernels of shape 2x2 with 2x2 strides
-    pool1 = tf.layers.MaxPooling2D(2, 2)(conv1)
+    pool1 = tf.layers.max_pooling2d(conv1, pool_size=2, strides=2)
 
     # Convolutional layer with 16 kernels of shape 5x5 with valid padding
-    conv2 = tf.layers.Conv2D(16,
-                             5,
-                             padding='valid',
-                             activation='relu',
-                             kernel_initializer=he_norm)(pool1)
+    conv2 = tf.layers.conv2d(
+        pool1, filters=16, kernel_size=5, padding='valid',
+        activation='relu', kernel_initializer=init
+    )
 
     # Max pooling layer with kernels of shape 2x2 with 2x2 strides
-    pool2 = tf.layers.MaxPooling2D(2, 2)(conv2)
+    pool2 = tf.layers.max_pooling2d(conv2, pool_size=2, strides=2)
 
-    # flatten output of convolutions for densely connected layers
-    pool2_flat = tf.layers.Flatten()(pool2)
+    # flattening convolution for densely connected layer
+    pool2_flat = tf.layers.flatten(pool2)
 
     # Fully connected layer with 120 nodes
-    dense1 = tf.layers.Dense(120,
-                             activation='relu',
-                             kernel_initializer=he_norm)(pool2_flat)
+    dense1 = tf.layers.dense(
+        pool2_flat, units=120, kernel_initializer=init, activation='relu'
+        )
 
     # Fully connected layer with 84 nodes
-    dense2 = tf.layers.Dense(84,
-                             activation='relu',
-                             kernel_initializer=he_norm)(dense1)
+    dense2 = tf.layers.dense(
+        dense1, units=84, kernel_initializer=init, activation='relu'
+        )
 
     # Fully connected softmax output layer with 10 nodes
-    dense3 = tf.layers.Dense(10,
-                             activation='softmax',
-                             kernel_initializer=he_norm)(dense2)
+    dense3 = tf.layers.dense(
+        dense2, units=10, kernel_initializer=init)
 
     # loss
     loss = tf.losses.softmax_cross_entropy(y, dense3)
@@ -68,44 +64,10 @@ def lenet5(x, y):
     opt = tf.train.AdamOptimizer().minimize(loss)
 
     # accuracy
-    y_out = tf.argmax(y, axis=1)
-    pred_out = tf.argmax(dense3, axis=1)
-    acc = tf.reduce_mean(tf.cast(tf.math.equal(y_out, pred_out), tf.float32))
-
-    return dense3, opt.minimize(loss), loss, acc
-    """
-
-    init = tf.contrib.layers.variance_scaling_initializer()
-
-    conv1 = tf.layers.conv2d(
-        x, filters=6, kernel_size=5, padding='same',
-        activation='relu', kernel_initializer=init
-    )
-
-    pool1 = tf.layers.max_pooling2d(conv1, pool_size=2, strides=2)
-
-    conv2 = tf.layers.conv2d(
-        pool1, filters=16, kernel_size=5, padding='valid',
-        activation='relu', kernel_initializer=init
-    )
-    pool2 = tf.layers.max_pooling2d(conv2, pool_size=2, strides=2)
-
-    pool2_flat = tf.layers.flatten(pool2)
-
-    dense1 = tf.layers.dense(
-        pool2_flat, units=120, kernel_initializer=init, activation='relu'
-        )
-
-    dense2 = tf.layers.dense(
-        dense1, units=84, kernel_initializer=init, activation='relu'
-        )
-
-    dense3 = tf.layers.dense(
-        dense2, units=10, kernel_initializer=init)
-
-    loss = tf.losses.softmax_cross_entropy(y, dense3)
-    Adam = tf.train.AdamOptimizer().minimize(loss)
     correct = tf.equal(tf.argmax(y, 1), tf.argmax(dense3, 1))
     accuracy = tf.reduce_mean(tf.cast(correct, tf.float32))
+
+    # final softmax output
     softmax = tf.nn.softmax(dense3)
-    return softmax, Adam, loss, accuracy
+
+    return softmax, opt, loss, accuracy
