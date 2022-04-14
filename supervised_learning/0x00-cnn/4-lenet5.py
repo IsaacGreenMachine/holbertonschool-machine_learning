@@ -81,7 +81,8 @@ def lenet5(x, y):
         x, filters=6, kernel_size=5, padding='same',
         activation='relu', kernel_initializer=init
     )
-    pool1 = tf.layers.max_pooling2d(conv1, pool_size=2, strides=(2, 2))
+
+    pool1 = tf.layers.max_pooling2d(conv1, pool_size=2, strides=2)
 
     conv2 = tf.layers.conv2d(
         pool1, filters=16, kernel_size=5, padding='valid',
@@ -89,20 +90,20 @@ def lenet5(x, y):
     )
     pool2 = tf.layers.max_pooling2d(conv2, pool_size=2, strides=2)
 
-    flat = tf.layers.flatten(pool2)
+    pool2_flat = tf.layers.flatten(pool2)
 
-    fc1 = tf.layers.dense(
-        flat, units=120, kernel_initializer=init, activation='relu'
+    dense1 = tf.layers.dense(
+        pool2_flat, units=120, kernel_initializer=init, activation='relu'
         )
 
-    fc2 = tf.layers.dense(
-        fc1, units=84, kernel_initializer=init, activation='relu'
+    dense2 = tf.layers.dense(
+        dense1, units=84, kernel_initializer=init, activation='relu'
         )
 
-    fc3 = tf.layers.dense(fc2, units=10, kernel_initializer=init)
-    prediction = fc3
+    dense3 = tf.layers.dense(dense2, units=10, kernel_initializer=init)
+    prediction = dense3
 
-    loss = tf.losses.softmax_cross_entropy(y, fc3)
+    loss = tf.losses.softmax_cross_entropy(y, dense3)
     Adam = tf.train.AdamOptimizer().minimize(loss)
     correct = tf.equal(tf.argmax(y, 1), tf.argmax(prediction, 1))
     accuracy = tf.reduce_mean(tf.cast(correct, tf.float32))
