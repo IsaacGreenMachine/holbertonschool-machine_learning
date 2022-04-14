@@ -48,17 +48,17 @@ def lenet5(x, y):
     # Fully connected layer with 120 nodes
     dense1 = tf.layers.Dense(120,
                              activation='relu',
-                             kernel_initializer=he_norm)
+                             kernel_initializer=he_norm)(pool2_flat)
 
     # Fully connected layer with 84 nodes
     dense2 = tf.layers.Dense(84,
                              activation='relu',
-                             kernel_initializer=he_norm)
+                             kernel_initializer=he_norm)(dense1)
 
     # Fully connected softmax output layer with 10 nodes
     dense3 = tf.layers.Dense(10,
                              activation='softmax',
-                             kernel_initializer=he_norm)
+                             kernel_initializer=he_norm)(dense2)
 
     # loss
     loss = tf.losses.softmax_cross_entropy(y, dense3)
