@@ -15,81 +15,49 @@ def lenet5(X):
         - accuracy metrics
     """
 
-    model = K.Sequential()
-
+    # setting up he_norm weight init
     init = K.initializers.he_normal()
-    # input layer
-    model.add(X)
 
     # Convolutional layer with 6 kernels of shape 5x5 with same padding
-    model.add(K.layers.Conv2D(6,
-                              5,
-                              padding="same",
-                              activation="relu",
-                              kernel_initializer=init))
+    conv1 = K.layers.Conv2D(6, kernel_size=(5, 5), padding='same',
+                            activation='relu',
+                            kernel_initializer=init)(X)
 
     # Max pooling layer with kernels of shape 2x2 with 2x2 strides
-    model.add(K.layers.MaxPooling2D(2, 2))
+    pool1 = K.layers.MaxPooling2D(pool_size=(2, 2), strides=(2, 2))(conv1)
 
     # Convolutional layer with 16 kernels of shape 5x5 with valid padding
-    model.add(K.layers.Conv2D(16,
-                              5,
-                              padding="valid",
-                              activation="relu",
-                              kernel_initializer=init))
+    conv2 = K.layers.Conv2D(16, kernel_size=(5, 5), padding='valid',
+                            activation='relu',
+                            kernel_initializer=init)(pool1)
 
     # Max pooling layer with kernels of shape 2x2 with 2x2 strides
-    model.add(K.layers.MaxPooling2D(2, 2))
+    pool2 = K.layers.MaxPooling2D(pool_size=(2, 2), strides=(2, 2))(conv2)
 
     # flatten conv layer output
-    model.add(K.layers.Flatten())
+    flat = K.layers.Flatten()(pool2)
 
     # Fully connected layer with 120 nodes
-    model.add(K.layers.Dense(120,
-                             activation='relu',
-                             kernel_initializer=init))
+    dense1 = K.layers.Dense(units=120, kernel_initializer=init,
+                            activation='relu')(flat)
 
     # Fully connected layer with 84 nodes
-    model.add(K.layers.Dense(84,
-                             activation='relu',
-                             kernel_initializer=init))
+    dense2 = K.layers.Dense(units=84, kernel_initializer=init,
+                            activation='relu')(dense1)
 
     # Fully connected softmax output layer with 10 nodes
-    model.add(K.layers.Dense(10,
-                             activation='softmax',
-                             kernel_initializer=init))
+    dense3 = K.layers.Dense(units=10, kernel_initializer=init,
+                            activation='softmax')(dense2)
+
+    # create model with X as input and last fully connected layer as output
+    model = K.models.Model(X, dense3)
 
     # adam opt
-    opt = K.optimizers.Adam()
+    adam = K.optimizers.Adam()
 
-    # compiling with adam opt and accuracy metrics
-    model.compile(loss="categorical_crossentropy",
-                  optimizer=opt,
+    # compile model with accuracy metrics and cross_entropy loss
+    model.compile(optimizer=adam,
+                  loss='categorical_crossentropy',
                   metrics=['accuracy'])
 
     return model
-    """
-
-    init = K.initializers.he_normal()
-    c1 = K.layers.Conv2D(6, kernel_size=(5, 5), padding='same',
-                         activation='relu',
-                         kernel_initializer=init)(X)
-    p1 = K.layers.MaxPooling2D(pool_size=(2, 2), strides=(2, 2))(c1)
-    c2 = K.layers.Conv2D(16, kernel_size=(5, 5), padding='valid',
-                         activation='relu',
-                         kernel_initializer=init)(p1)
-    p2 = K.layers.MaxPooling2D(pool_size=(2, 2), strides=(2, 2))(c2)
-    flat = K.layers.Flatten()(p2)
-    layer1 = K.layers.Dense(units=120, kernel_initializer=init,
-                            activation='relu')(flat)
-    layer2 = K.layers.Dense(units=84, kernel_initializer=init,
-                            activation='relu')(layer1)
-    layer3 = K.layers.Dense(units=10, kernel_initializer=init,
-                            activation='softmax')(layer2)
-    newModel = K.models.Model(X, layer3)
-    adam = K.optimizers.Adam()
-    newModel.compile(optimizer=adam,
-                     loss='categorical_crossentropy',
-                     metrics=['accuracy'])
-    return newModel
-    """
