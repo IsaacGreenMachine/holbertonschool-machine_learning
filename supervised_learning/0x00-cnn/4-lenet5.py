@@ -76,29 +76,30 @@ def lenet5(x, y):
     """
 
     init = tf.contrib.layers.variance_scaling_initializer()
-    conv1 = tf.layers.Conv2D(
-        filters=6, kernel_size=5, padding='same',
+
+    conv1 = tf.layers.conv2d(
+        x, filters=6, kernel_size=5, padding='same',
         activation='relu', kernel_initializer=init
-    )(x)
-    pool1 = tf.layers.MaxPooling2D(pool_size=2, strides=(2, 2))(conv1)
+    )
+    pool1 = tf.layers.max_pooling2d(conv1, pool_size=2, strides=(2, 2))
 
-    conv2 = tf.layers.Conv2D(
-        filters=16, kernel_size=5, padding='valid',
+    conv2 = tf.layers.conv2d(
+        pool1, filters=16, kernel_size=5, padding='valid',
         activation='relu', kernel_initializer=init
-    )(pool1)
-    pool2 = tf.layers.MaxPooling2D(pool_size=2, strides=2)(conv2)
+    )
+    pool2 = tf.layers.max_pooling2d(conv2, pool_size=2, strides=2)
 
-    flat = tf.layers.Flatten()(pool2)
+    flat = tf.layers.flatten(pool2)
 
-    fc1 = tf.layers.Dense(
-        units=120, kernel_initializer=init, activation='relu'
-        )(flat)
+    fc1 = tf.layers.dense(
+        flat, units=120, kernel_initializer=init, activation='relu'
+        )
 
-    fc2 = tf.layers.Dense(
-        units=84, kernel_initializer=init, activation='relu'
-        )(fc1)
+    fc2 = tf.layers.dense(
+        fc1, units=84, kernel_initializer=init, activation='relu'
+        )
 
-    fc3 = tf.layers.Dense(units=10, kernel_initializer=init)(fc2)
+    fc3 = tf.layers.dense(fc2, units=10, kernel_initializer=init)
     prediction = fc3
 
     loss = tf.losses.softmax_cross_entropy(y, fc3)
