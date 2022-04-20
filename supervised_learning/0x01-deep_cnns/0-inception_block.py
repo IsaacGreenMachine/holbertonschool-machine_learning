@@ -69,7 +69,7 @@ def inception_block(A_prev, filters):
 
     # pooling layer -> FPP
     pl = K.layers.MaxPooling2D(
-        pool_size=(2, 2),
+        pool_size=(3, 3),
         strides=1,
         padding='same'
     )(A_prev)
