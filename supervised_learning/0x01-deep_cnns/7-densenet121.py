@@ -33,12 +33,7 @@ def densenet121(growth_rate=32, compression=1.0):
 
     nb_filters = 2*growth_rate
 
-    # 3x3 max pool /2
-    pool = K.layers.MaxPooling2D(
-        pool_size=3,
-        strides=2,
-        padding="same",
-    )(conv)
+
 
     # dense 1
     d1, nb_filters = dense_block(pool, 64, growth_rate, 6)
@@ -89,9 +84,14 @@ def densenet121(growth_rate=32, compression=1.0):
         kernel_initializer=init,
     )(X)
 
-    X = K.layers.MaxPooling2D((3, 3), strides=(2, 2), padding='same')(conv)
+    # 3x3 max pool /2
+    pool = K.layers.MaxPooling2D(
+        pool_size=3,
+        strides=2,
+        padding="same",
+    )(conv)
 
-    block, filters = dense_block(X, 64, growth_rate, 6)
+    block, filters = dense_block(pool, 2*growth_rate, growth_rate, 6)
     transition, filters = transition_layer(block, filters, compression)
 
     block, filters = dense_block(transition, filters, growth_rate, 12)
