@@ -167,7 +167,7 @@ def inception_network():
     inception9 = inception_block(inception8, (384, 192, 384, 48, 128, 128))
 
     pool5 = K.layers.AveragePooling2D(
-        (7, 7), strides=(7, 7), padding='same'
+        (7, 7), strides=1, padding='valid'
         )(inception9)
     dropout = K.layers.Dropout(0.4)(pool5)
     dense = K.layers.Dense(
