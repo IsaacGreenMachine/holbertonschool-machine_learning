@@ -12,26 +12,6 @@ def inception_network():
 
     Returns: the keras model
     """
-    """
-
-    # avg pool - (1 x 1 x 1024)
-    avg_pool_1 = K.layers.AveragePooling2D(
-        (7, 7), strides=(7, 7), padding='same'
-        )(incep_9)
-
-    # dropout (40%) - (1 x 1 x 1024)
-    dropout_1 = K.layers.Dropout(0.4)(avg_pool_1)
-
-    # dense takes care of "linear",
-    # activation takes care of "softmax" - (1 x 1 x 1000)
-    softmax_1 = K.layers.Dense(
-        units=1000,
-        activation='softmax',
-        kernel_initializer=init,
-        )(dropout_1)
-
-    return K.Model(inputs=input, outputs=softmax_1)
-    """
     # kernel initialization function
     init = K.initializers.he_normal()
     # input size (224 x 224 x 3)
@@ -124,12 +104,20 @@ def inception_network():
     # inception (5b) - (7 x 7 x 1024)
     incep_9 = inception_block(incep_8, [384, 192, 384, 48, 128, 128])
 
-    pool5 = K.layers.AveragePooling2D(
+    # avg pool - (1 x 1 x 1024)
+    avg_pool_1 = K.layers.AveragePooling2D(
         (7, 7), strides=(7, 7), padding='same'
         )(incep_9)
-    dropout = K.layers.Dropout(0.4)(pool5)
-    dense = K.layers.Dense(
-        1000, activation='softmax', kernel_initializer=init
-        )(dropout)
 
-    return K.Model(inputs=input, outputs=dense)
+    # dropout (40%) - (1 x 1 x 1024)
+    dropout_1 = K.layers.Dropout(0.4)(avg_pool_1)
+
+    # dense takes care of "linear",
+    # activation takes care of "softmax" - (1 x 1 x 1000)
+    softmax_1 = K.layers.Dense(
+        units=1000,
+        activation='softmax',
+        kernel_initializer=init,
+        )(dropout_1)
+
+    return K.Model(inputs=input, outputs=softmax_1)
