@@ -14,12 +14,6 @@ def inception_network():
     """
     """
 
-    # inception (5a) - (7 x 7 x 832)
-    incep_8 = inception_block(max_pool_4, [256, 160, 320, 32, 128, 128])
-
-    # inception (5b) - (7 x 7 x 1024)
-    incep_9 = inception_block(max_pool_4, [384, 192, 384, 48, 128, 128])
-
     # avg pool - (1 x 1 x 1024)
     avg_pool_1 = K.layers.AveragePooling2D(
         (7, 7), strides=(7, 7), padding='same'
@@ -124,12 +118,15 @@ def inception_network():
         padding="same",
         )(incep_7)
 
-    inception8 = inception_block(max_pool_4, (256, 160, 320, 32, 128, 128))
-    inception9 = inception_block(inception8, (384, 192, 384, 48, 128, 128))
+    # inception (5a) - (7 x 7 x 832)
+    incep_8 = inception_block(max_pool_4, [256, 160, 320, 32, 128, 128])
+
+    # inception (5b) - (7 x 7 x 1024)
+    incep_9 = inception_block(max_pool_4, [384, 192, 384, 48, 128, 128])
 
     pool5 = K.layers.AveragePooling2D(
         (7, 7), strides=(7, 7), padding='same'
-        )(inception9)
+        )(incep_9)
     dropout = K.layers.Dropout(0.4)(pool5)
     dense = K.layers.Dense(
         1000, activation='softmax', kernel_initializer=init
