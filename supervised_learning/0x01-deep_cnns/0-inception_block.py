@@ -136,6 +136,4 @@ def inception_block(A_prev, filters):
         kernel_initializer=init
     )(pool)
 
-    out = K.layers.Concatenate()([conv1D, conv3, conv5, convPool])
-
-    return out
+    return K.layers.Concatenate()([conv1D, conv3, conv5, convPool])
