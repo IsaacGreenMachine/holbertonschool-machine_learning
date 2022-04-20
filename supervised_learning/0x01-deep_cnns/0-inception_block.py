@@ -43,7 +43,7 @@ def inception_block(A_prev, filters):
         kernel_initializer=init
     )(A_prev)
     pl = K.layers.MaxPooling2D(
-        pool_size=(3, 3),
+        pool_size=(2, 2),
         strides=1,
         padding='same'
     )(A_prev)
@@ -72,5 +72,5 @@ def inception_block(A_prev, filters):
     )(pl)
 
     # connect time
-    concat = K.layers.Concatenate()([conv1, conv4, conv5, conv6])
+    concat = K.layers.Concatenate([conv1, conv4, conv5, conv6])
     return concat
