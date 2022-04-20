@@ -32,7 +32,6 @@ def resnet50():
         kernel_size=7,
         strides=2,
         padding="same",
-        activation='relu',
         kernel_initializer=init,
     )(input)
 
