@@ -15,6 +15,7 @@ def inception_network():
 
     # input size (224 x 224 x 3)
     input = K.Input(shape=(224, 224, 3))
+    init = K.initializers.he_normal()
 
     # layer type - output size
 
@@ -25,21 +26,24 @@ def inception_network():
         strides=2,
         padding="same",
         activation='relu',
-        )(input)
+        kernel_initializer=init
+    )(input)
 
     # max pool - (56 x 56 x 64)
     max_pooling2d_0 = K.layers.MaxPooling2D(
         pool_size=3,
         strides=2,
         padding="same",
-        )(conv2d_0)
+    )(conv2d_0)
 
     # 1 x 1 reduce for convolution
     conv_2d_1_red = K.layers.Conv2D(
         filters=64,
         kernel_size=(1, 1),
         padding='same',
-        activation='relu')(max_pooling2d_0)
+        activation='relu',
+        kernel_initializer=init
+    )(max_pooling2d_0)
 
     # convolution - (56 x 56 x 192)
     conv2d_1 = K.layers.Conv2D(
@@ -48,7 +52,8 @@ def inception_network():
         strides=1,
         padding="same",
         activation='relu',
-        )(conv_2d_1_red)
+        kernel_initializer=init
+    )(conv_2d_1_red)
 
     # max pool - (28 x 28 x 192)
     max_pool_2 = K.layers.MaxPooling2D(
@@ -97,7 +102,7 @@ def inception_network():
     incep_8 = inception_block(max_pool_4, [256, 160, 320, 32, 128, 128])
 
     # inception (5b) - (7 x 7 x 1024)
-    incep_9 = inception_block(max_pool_4, [256, 160, 320, 32, 128, 128])
+    incep_9 = inception_block(max_pool_4, [384, 192, 384, 48, 128, 128])
 
     # avg pool - (1 x 1 x 1024)
     avg_pool_1 = K.layers.AveragePooling2D(
@@ -114,7 +119,7 @@ def inception_network():
     softmax_1 = K.layers.Dense(
         units=1000,
         activation='softmax',
-        kernel_initializer="glorot_uniform",
-        )(avg_pool_1)
+        kernel_initializer=init,
+        )(dropout_1)
 
     return K.Model(inputs=input, outputs=softmax_1)
