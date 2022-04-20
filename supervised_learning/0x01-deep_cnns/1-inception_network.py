@@ -122,7 +122,7 @@ def inception_network():
     incep_8 = inception_block(max_pool_4, [256, 160, 320, 32, 128, 128])
 
     # inception (5b) - (7 x 7 x 1024)
-    incep_9 = inception_block(max_pool_4, [384, 192, 384, 48, 128, 128])
+    incep_9 = inception_block(incep_8, [384, 192, 384, 48, 128, 128])
 
     pool5 = K.layers.AveragePooling2D(
         (7, 7), strides=(7, 7), padding='same'
