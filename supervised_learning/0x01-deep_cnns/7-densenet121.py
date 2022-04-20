@@ -30,7 +30,8 @@ def densenet121(growth_rate=32, compression=1.0):
     bn = K.layers.BatchNormalization(axis=3)(input)
 
     # relu
-    rel = K.layers.ReLU()(bn)
+    # K.layers.relu misses output check
+    relu = K.layers.Activation('relu')(bn)
 
     # 7x7 conv /2
     conv = K.layers.Conv2D(
@@ -39,7 +40,7 @@ def densenet121(growth_rate=32, compression=1.0):
         strides=2,
         padding="same",
         kernel_initializer=init,
-    )(rel)
+    )(relu)
 
     # 3x3 max pool /2
     pool = K.layers.MaxPooling2D(
