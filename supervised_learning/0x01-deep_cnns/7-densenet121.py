@@ -53,7 +53,7 @@ def densenet121(growth_rate=32, compression=1.0):
     )(conv)
 
     # dense 1
-    d1, nb_filters = dense_block(pool, nb_filters, growth_rate, 6)
+    d1, nb_filters = dense_block(pool, 64, growth_rate, 6)
     # transition 1
     d1_t, nb_filters = transition_layer(d1, nb_filters, compression)
     # dense 2
@@ -70,7 +70,9 @@ def densenet121(growth_rate=32, compression=1.0):
     # classification
     # 7x7 avg pool
     avg_pool = K.layers.AveragePooling2D(
-        pool_size=(1, 1), strides=(7, 7), padding='same'
+        pool_size=7,
+        strides=1,
+        padding="valid",
     )(d4)
     # fully connected
     softmax = K.layers.Dense(
