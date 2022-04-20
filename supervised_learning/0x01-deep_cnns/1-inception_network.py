@@ -106,11 +106,11 @@ def inception_network():
 
     # avg pool - (1 x 1 x 1024)
     avg_pool_1 = K.layers.AveragePooling2D(
-        (7, 7), strides=(7, 7), padding='same'
+        (7, 7), strides=1, padding='valid'
         )(incep_9)
 
     # dropout (40%) - (1 x 1 x 1024)
-    dropout_1 = K.layers.Dropout(0.4)(avg_pool_1)
+    dropout_1 = K.layers.Dropout(.4)(avg_pool_1)
 
     # dense takes care of "linear",
     # activation takes care of "softmax" - (1 x 1 x 1000)
