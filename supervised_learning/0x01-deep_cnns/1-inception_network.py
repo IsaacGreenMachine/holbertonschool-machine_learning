@@ -14,15 +14,6 @@ def inception_network():
     """
     """
 
-    # 1 x 1 reduce for convolution
-    conv_2d_1_red = K.layers.Conv2D(
-        filters=64,
-        kernel_size=(1, 1),
-        padding='same',
-        activation='relu',
-        kernel_initializer=init
-    )(max_pooling2d_0)
-
     # convolution - (56 x 56 x 192)
     conv2d_1 = K.layers.Conv2D(
         filters=192,
@@ -124,15 +115,19 @@ def inception_network():
         padding="same",
     )(conv2d_0)
 
-    convE = K.layers.Conv2D(
-        64, kernel_size=(1, 1), padding='same', activation='relu',
+    # 1 x 1 reduce for convolution
+    conv_2d_1_red = K.layers.Conv2D(
+        filters=64,
+        kernel_size=(1, 1),
+        padding='same',
+        activation='relu',
         kernel_initializer=init
     )(max_pooling2d_0)
 
     conv2 = K.layers.Conv2D(
         192, (3, 3), activation='relu', padding='same',
         kernel_initializer=init
-        )(convE)
+        )(conv_2d_1_red)
     pool2 = K.layers.MaxPooling2D(
         (3, 3), strides=(2, 2), padding='same'
         )(conv2)
