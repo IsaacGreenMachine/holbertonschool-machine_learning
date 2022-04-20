@@ -106,9 +106,7 @@ def inception_network():
 
     # avg pool - (1 x 1 x 1024)
     avg_pool_1 = K.layers.AveragePooling2D(
-        pool_size=7,
-        strides=1,
-        padding="valid"
+        (7, 7), strides=(7, 7), padding='same'
         )(incep_9)
 
     # dropout (40%) - (1 x 1 x 1024)
