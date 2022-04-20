@@ -110,7 +110,7 @@ def inception_network():
         )(incep_9)
 
     # dropout (40%) - (1 x 1 x 1024)
-    dropout_1 = K.layers.Dropout(.4)(avg_pool_1)
+    dropout_1 = K.layers.Dropout(0.4)(avg_pool_1)
 
     # dense takes care of "linear",
     # activation takes care of "softmax" - (1 x 1 x 1000)
