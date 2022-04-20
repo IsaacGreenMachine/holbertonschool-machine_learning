@@ -124,7 +124,7 @@ def inception_block(A_prev, filters):
 
     # 3x3 pool -> 1D
     pool = K.layers.MaxPooling2D(
-        (2, 2),
+        (3, 3),
         strides=(1, 1),
         padding='same'
     )(A_prev)
