@@ -77,7 +77,7 @@ def densenet121(growth_rate=32, compression=1.0):
         padding="valid",
     )(d4)
 
-        # fully connected
+    # fully connected
     softmax = K.layers.Dense(
         units=1000,
         activation='softmax',
