@@ -32,7 +32,6 @@ def projection_block(A_prev, filters, s=2):
         kernel_size=1,
         strides=s,
         padding="same",
-        activation='relu',
         kernel_initializer=init,
         )(A_prev)
 
@@ -50,7 +49,6 @@ def projection_block(A_prev, filters, s=2):
         kernel_size=3,
         strides=1,
         padding="same",
-        activation='relu',
         kernel_initializer=init,
         )(re_0)
 
@@ -68,7 +66,6 @@ def projection_block(A_prev, filters, s=2):
         kernel_size=1,
         strides=1,
         padding="same",
-        activation='relu',
         kernel_initializer=init,
         )(re_1)
 
@@ -83,7 +80,6 @@ def projection_block(A_prev, filters, s=2):
         kernel_size=1,
         strides=s,
         padding="same",
-        activation='relu',
         kernel_initializer=init,
         )(A_prev)
 
