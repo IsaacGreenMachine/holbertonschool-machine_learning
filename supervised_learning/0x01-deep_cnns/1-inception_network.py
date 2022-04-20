@@ -14,21 +14,6 @@ def inception_network():
     """
     """
 
-    # inception (4a) - (14 x 14 x 512)
-    incep_3 = inception_block(max_pool_3, [192, 96, 208, 16, 48, 64])
-
-    # inception (4b) - (14 x 14 x 512)
-    incep_4 = inception_block(incep_3, [160, 112, 224, 24, 64, 64])
-
-    # inception (4c) - (14 x 14 x 512)
-    incep_5 = inception_block(incep_4, [128, 128, 256, 24, 64, 64])
-
-    # inception (4d) - (14 x 14 x 528)
-    incep_6 = inception_block(incep_5, [112, 144, 288, 32, 64, 64])
-
-    # inception (4e) - (14 x 14 x 832)
-    incep_7 = inception_block(incep_6, [256, 160, 320, 32, 128, 128])
-
     # max pool - (7 x 7 x 832)
     max_pool_4 = K.layers.MaxPooling2D(
         pool_size=3,
@@ -124,15 +109,24 @@ def inception_network():
         padding="same",
         )(incep_2)
 
-    inception3 = inception_block(max_pool_3, (192, 96, 208, 16, 48, 64))
-    inception4 = inception_block(inception3, (160, 112, 224, 24, 64, 64))
-    inception5 = inception_block(inception4, (128, 128, 256, 24, 64, 64))
-    inception6 = inception_block(inception5, (112, 144, 288, 32, 64, 64))
-    inception7 = inception_block(inception6, (256, 160, 320, 32, 128, 128))
+    # inception (4a) - (14 x 14 x 512)
+    incep_3 = inception_block(max_pool_3, [192, 96, 208, 16, 48, 64])
+
+    # inception (4b) - (14 x 14 x 512)
+    incep_4 = inception_block(incep_3, [160, 112, 224, 24, 64, 64])
+
+    # inception (4c) - (14 x 14 x 512)
+    incep_5 = inception_block(incep_4, [128, 128, 256, 24, 64, 64])
+
+    # inception (4d) - (14 x 14 x 528)
+    incep_6 = inception_block(incep_5, [112, 144, 288, 32, 64, 64])
+
+    # inception (4e) - (14 x 14 x 832)
+    incep_7 = inception_block(incep_6, [256, 160, 320, 32, 128, 128])
 
     pool4 = K.layers.MaxPooling2D(
         (3, 3), strides=(2, 2), padding='same'
-        )(inception7)
+        )(incep_7)
 
     inception8 = inception_block(pool4, (256, 160, 320, 32, 128, 128))
     inception9 = inception_block(inception8, (384, 192, 384, 48, 128, 128))
