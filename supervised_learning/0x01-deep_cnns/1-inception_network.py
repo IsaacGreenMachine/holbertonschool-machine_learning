@@ -14,23 +14,6 @@ def inception_network():
     """
     """
 
-    # convolution - (56 x 56 x 192)
-    conv2d_1 = K.layers.Conv2D(
-        filters=192,
-        kernel_size=3,
-        strides=1,
-        padding="same",
-        activation='relu',
-        kernel_initializer=init
-    )(conv_2d_1_red)
-
-    # max pool - (28 x 28 x 192)
-    max_pool_2 = K.layers.MaxPooling2D(
-        pool_size=3,
-        strides=2,
-        padding="same",
-        )(conv2d_1)
-
     # inception (3a) - (28 x 28 x 256)
     # [F1, F3R, F3, F5R, F5, FPP]
     incep_1 = inception_block(max_pool_2, [64, 96, 128, 16, 32, 32])
@@ -124,15 +107,24 @@ def inception_network():
         kernel_initializer=init
     )(max_pooling2d_0)
 
-    conv2 = K.layers.Conv2D(
-        192, (3, 3), activation='relu', padding='same',
+    # convolution - (56 x 56 x 192)
+    conv2d_1 = K.layers.Conv2D(
+        filters=192,
+        kernel_size=3,
+        strides=1,
+        padding="same",
+        activation='relu',
         kernel_initializer=init
-        )(conv_2d_1_red)
-    pool2 = K.layers.MaxPooling2D(
-        (3, 3), strides=(2, 2), padding='same'
-        )(conv2)
+    )(conv_2d_1_red)
 
-    inception1 = inception_block(pool2, (64, 96, 128, 16, 32, 32))
+    # max pool - (28 x 28 x 192)
+    max_pool_2 = K.layers.MaxPooling2D(
+        pool_size=3,
+        strides=2,
+        padding="same",
+        )(conv2d_1)
+
+    inception1 = inception_block(max_pool_2, (64, 96, 128, 16, 32, 32))
     inception2 = inception_block(inception1, (128, 128, 192, 32, 96, 64))
 
     pool3 = K.layers.MaxPooling2D(
