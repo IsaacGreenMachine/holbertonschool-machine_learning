@@ -36,7 +36,6 @@ def transition_layer(X, nb_filters, compression):
         kernel_size=1,
         strides=1,
         padding="same",
-        activation='relu',
         kernel_initializer=init,
     )(relu)
 
