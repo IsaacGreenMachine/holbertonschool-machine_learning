@@ -72,5 +72,5 @@ def inception_block(A_prev, filters):
     )(pl)
 
     # connect time
-    concat = K.layers.Concatenate([conv1, conv4, conv5, conv6])
+    concat = K.layers.Concatenate()([conv1, conv4, conv5, conv6])
     return concat
