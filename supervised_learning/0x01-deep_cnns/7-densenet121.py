@@ -70,9 +70,7 @@ def densenet121(growth_rate=32, compression=1.0):
     # classification
     # 7x7 avg pool
     avg_pool = K.layers.AveragePooling2D(
-        pool_size=7,
-        strides=1,
-        padding="valid",
+        pool_size=(1, 1), strides=(7, 7), padding='same'
     )(d4)
     # fully connected
     softmax = K.layers.Dense(
