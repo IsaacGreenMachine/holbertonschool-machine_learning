@@ -28,23 +28,6 @@ def densenet121(growth_rate=32, compression=1.0):
     # relu
     relu = K.layers.ReLU()(bn)
 
-
-
-    # classification
-    # 7x7 avg pool
-    avg_pool = K.layers.AveragePooling2D(
-        pool_size=7,
-        strides=1,
-        padding="valid",
-    )(d4)
-    # fully connected
-    softmax = K.layers.Dense(
-        units=1000,
-        activation='softmax',
-        kernel_initializer=init,
-    )(avg_pool)
-
-    return K.Model(input, softmax)
     """
 
     init = K.initializers.he_normal()
@@ -86,14 +69,19 @@ def densenet121(growth_rate=32, compression=1.0):
     # dense 4
     d4, nb_filters = dense_block(d3_t, nb_filters, growth_rate, 16)
 
+    # classification
+    # 7x7 avg pool
     avg_pool = K.layers.AveragePooling2D(
         pool_size=7,
         strides=1,
         padding="valid",
     )(d4)
 
-    soft = K.layers.Dense(
-        1000, activation='softmax', kernel_initializer=init
+        # fully connected
+    softmax = K.layers.Dense(
+        units=1000,
+        activation='softmax',
+        kernel_initializer=init,
     )(avg_pool)
 
-    return K.Model(inputs=input, outputs=soft)
+    return K.Model(inputs=input, outputs=softmax)
