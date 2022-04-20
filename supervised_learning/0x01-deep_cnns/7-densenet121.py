@@ -28,14 +28,8 @@ def densenet121(growth_rate=32, compression=1.0):
     # relu
     relu = K.layers.ReLU()(bn)
 
-    # 7x7 conv /2
-    conv = K.layers.Conv2D(
-        filters=2*growth_rate,  # page 4 under "implementation details"
-        kernel_size=7,
-        strides=2,
-        padding="same",
-        kernel_initializer=init,
-    )(relu)
+
+
 
     nb_filters = 2*growth_rate
 
@@ -83,10 +77,18 @@ def densenet121(growth_rate=32, compression=1.0):
 
     # batch norm
     bn = K.layers.BatchNormalization(axis=3)(input)
+
     X = K.layers.Activation('relu')(bn)
-    X = K.layers.Conv2D(
-        2*growth_rate, (7, 7), (2, 2), padding='same', kernel_initializer=init
-        )(X)
+
+    # 7x7 conv /2
+    conv = K.layers.Conv2D(
+        filters=2*growth_rate,  # page 4 under "implementation details"
+        kernel_size=7,
+        strides=2,
+        padding="same",
+        kernel_initializer=init,
+    )(X)
+
     X = K.layers.MaxPooling2D((3, 3), strides=(2, 2), padding='same')(X)
 
     block, filters = dense_block(X, 64, growth_rate, 6)
