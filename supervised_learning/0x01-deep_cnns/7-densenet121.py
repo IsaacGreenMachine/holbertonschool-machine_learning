@@ -24,10 +24,6 @@ def densenet121(growth_rate=32, compression=1.0):
     """
 
     """
-    init = K.initializers.he_normal()
-
-    # input
-    input = K.Input(shape=(224, 224, 3))
 
     # batch norm
     bn = K.layers.BatchNormalization(axis=3)(input)
@@ -88,11 +84,15 @@ def densenet121(growth_rate=32, compression=1.0):
     init = K.initializers.he_normal()
     input = K.Input(shape=(224, 224, 3))
 
-    X = K.layers.BatchNormalization(axis=3)(input)
-    X = K.layers.Activation('relu')(X)
+    # batch norm
+    bn = K.layers.BatchNormalization(axis=3)(input)
+
+    # relu
+    relu = K.layers.ReLU()(bn)
+
     X = K.layers.Conv2D(
         2*growth_rate, (7, 7), (2, 2), padding='same', kernel_initializer=init
-        )(X)
+        )(bn)
     X = K.layers.MaxPooling2D((3, 3), strides=(2, 2), padding='same')(X)
 
     block, filters = dense_block(X, 64, growth_rate, 6)
