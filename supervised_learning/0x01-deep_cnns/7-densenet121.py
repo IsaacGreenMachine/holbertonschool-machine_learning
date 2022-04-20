@@ -40,7 +40,6 @@ def densenet121(growth_rate=32, compression=1.0):
         kernel_size=7,
         strides=2,
         padding="same",
-        activation="relu",
         kernel_initializer=init,
     )(relu)
 
