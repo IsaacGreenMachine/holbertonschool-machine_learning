@@ -30,26 +30,6 @@ def densenet121(growth_rate=32, compression=1.0):
 
 
 
-
-    nb_filters = 2*growth_rate
-
-
-
-    # dense 1
-    d1, nb_filters = dense_block(pool, 64, growth_rate, 6)
-    # transition 1
-    d1_t, nb_filters = transition_layer(d1, nb_filters, compression)
-    # dense 2
-    d2, nb_filters = dense_block(d1_t, nb_filters, growth_rate, 12)
-    # transition 2
-    d2_t, nb_filters = transition_layer(d2, nb_filters, compression)
-    # dense 3
-    d3, nb_filters = dense_block(d2_t, nb_filters, growth_rate, 24)
-    # transition 3
-    d3_t, nb_filters = transition_layer(d3, nb_filters, compression)
-    # dense 4
-    d4, nb_filters = dense_block(d3_t, nb_filters, growth_rate, 16)
-
     # classification
     # 7x7 avg pool
     avg_pool = K.layers.AveragePooling2D(
@@ -91,22 +71,26 @@ def densenet121(growth_rate=32, compression=1.0):
         padding="same",
     )(conv)
 
-    block, filters = dense_block(pool, 2*growth_rate, growth_rate, 6)
-    transition, filters = transition_layer(block, filters, compression)
-
-    block, filters = dense_block(transition, filters, growth_rate, 12)
-    transition, filters = transition_layer(block, filters, compression)
-
-    block, filters = dense_block(transition, filters, growth_rate, 24)
-    transition, filters = transition_layer(block, filters, compression)
-
-    block, _ = dense_block(transition, filters, growth_rate, 16)
+    # dense 1
+    d1, nb_filters = dense_block(pool, 64, growth_rate, 6)
+    # transition 1
+    d1_t, nb_filters = transition_layer(d1, nb_filters, compression)
+    # dense 2
+    d2, nb_filters = dense_block(d1_t, nb_filters, growth_rate, 12)
+    # transition 2
+    d2_t, nb_filters = transition_layer(d2, nb_filters, compression)
+    # dense 3
+    d3, nb_filters = dense_block(d2_t, nb_filters, growth_rate, 24)
+    # transition 3
+    d3_t, nb_filters = transition_layer(d3, nb_filters, compression)
+    # dense 4
+    d4, nb_filters = dense_block(d3_t, nb_filters, growth_rate, 16)
 
     avg_pool = K.layers.AveragePooling2D(
         pool_size=7,
         strides=1,
         padding="valid",
-    )(block)
+    )(d4)
 
     soft = K.layers.Dense(
         1000, activation='softmax', kernel_initializer=init
