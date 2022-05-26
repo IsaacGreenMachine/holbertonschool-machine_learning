@@ -14,20 +14,20 @@ A repository containing several projects from holberton school's ML curriculum. 
 
 ## [Math](https://github.com/IsaacGreenMachine/holbertonschool-machine_learning/tree/main/math)
 A repository containing several projects that cover the calculus, linear/matrix algebra and statistics required to implement machine learning in the following repositories.
-| Projects |
-| ----------- |
-| [Linear Algebra](https://github.com/IsaacGreenMachine/holbertonschool-machine_learning/tree/main/math/0x00-linear_algebra) |
-| [Plotting](https://github.com/IsaacGreenMachine/holbertonschool-machine_learning/tree/main/math/0x01-plotting) |
-| [Calculus](https://github.com/IsaacGreenMachine/holbertonschool-machine_learning/tree/main/math/0x02-calculus) |
-| [Convolutions and Pooling](https://github.com/IsaacGreenMachine/holbertonschool-machine_learning/tree/main/math/0x03-convolutions_and_pooling) |
-| [Probability](https://github.com/IsaacGreenMachine/holbertonschool-machine_learning/tree/main/math/0x03-probability) |
+| Projects | Description |
+| ----------- | ----------- |
+| [Linear Algebra](https://github.com/IsaacGreenMachine/holbertonschool-machine_learning/tree/main/math/0x00-linear_algebra) | learning and using Numpy for matrix operations| 
+| [Plotting](https://github.com/IsaacGreenMachine/holbertonschool-machine_learning/tree/main/math/0x01-plotting) | graphing data using matplotlib |
+| [Calculus](https://github.com/IsaacGreenMachine/holbertonschool-machine_learning/tree/main/math/0x02-calculus) | Calculus 1, 2, and 3 and some coding implementations |
+| [Convolutions and Pooling](https://github.com/IsaacGreenMachine/holbertonschool-machine_learning/tree/main/math/0x03-convolutions_and_pooling) | sliding boxes and averaging images basics
+| [Probability](https://github.com/IsaacGreenMachine/holbertonschool-machine_learning/tree/main/math/0x03-probability) | intro to numpy functions and statistical functions
 
 ## [Supervised Learning](https://github.com/IsaacGreenMachine/holbertonschool-machine_learning/tree/main/supervised_learning)
 Several projects that implement supervised models including regression and classification models.
 
-| Projects: |
-| ----------- |
-| [Convolutional Neural Networks](https://github.com/IsaacGreenMachine/holbertonschool-machine_learning/tree/main/supervised_learning/0x00-cnn) | asd |
+| Projects | Description |
+| ----------- | ----------- |
+| [Convolutional Neural Networks](https://github.com/IsaacGreenMachine/holbertonschool-machine_learning/tree/main/supervised_learning/0x00-cnn) |  |
 | [Error Analysis](https://github.com/IsaacGreenMachine/holbertonschool-machine_learning/tree/main/supervised_learning/0x00-error_analysis) |
 | [Object Detection](https://github.com/IsaacGreenMachine/holbertonschool-machine_learning/tree/main/supervised_learning/0x00-object_detection) |
 | [Tensorflow](https://github.com/IsaacGreenMachine/holbertonschool-machine_learning/tree/main/supervised_learning/0x00-tensorflow) |
