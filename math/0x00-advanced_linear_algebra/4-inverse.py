@@ -20,7 +20,7 @@ def inverse(matrix):
         inv_det = 1 / determinant(matrix)
         for i in range(len(matrix)):
             for j in range(len(matrix[i])):
-                adj[i][j] *= inv_det
+                adj[i][j] = 1/det*adj[i][j]
         return(adj)
     else:
         return None
