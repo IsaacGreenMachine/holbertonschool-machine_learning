@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """module for inverse function"""
 
-'''
+
 def inverse(matrix):
     """returns the inverse of a matrix"""
     if type(matrix) is not list:
@@ -24,28 +24,6 @@ def inverse(matrix):
         return(adj)
     else:
         return None
-'''
-
-
-def inverse(matrix):
-    """
-       Calculates the inverse of a matrix.
-       Args:
-         matrix: The matrix to find the inverse of.
-       Return:
-         The inverse of the matrix.
-    """
-    det = determinant(matrix)
-    if det == 0:
-        return None
-    Inv = []
-    adj = adjugate(matrix)
-
-    for i in range(len(matrix)):
-        r = [1/det*adj[i][j] for j in range(len(matrix[i]))]
-        Inv.append(r.copy())
-
-    return Inv
 
 
 def adjugate(matrix):
