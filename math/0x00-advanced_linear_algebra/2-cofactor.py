@@ -14,21 +14,16 @@ def cofactor(matrix):
             raise TypeError("matrix must be a list of lists")
         if len(item) != width:
             raise ValueError("matrix must be a non-empty square matrix")
-
-    ################
     new_mat = minor(deepcopy(matrix))
     modfirst = 1
     modcurr = 1
     for row in range(len(matrix)):
         for col in range(len(matrix[row])):
-            # print(matrix[row][col], end=' ')
             new_mat[row][col] *= (modfirst * modcurr)
             modcurr *= -1
         modfirst *= -1
         modcurr = 1
-        # print()
     return new_mat
-    ################
 
 
 def deepcopy(matrix):
