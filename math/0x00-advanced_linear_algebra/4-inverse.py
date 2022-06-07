@@ -16,7 +16,7 @@ def inverse(matrix):
             raise ValueError("matrix must be a non-empty square matrix")
     adj = adjugate(matrix)
     det = determinant(matrix)
-    if det:
+    if det != 0:
         inv_det = 1 / determinant(matrix)
         for i in range(len(matrix)):
             for j in range(len(matrix[i])):
@@ -24,7 +24,6 @@ def inverse(matrix):
         return(adj)
     else:
         return None
-
 
 
 def adjugate(matrix):
