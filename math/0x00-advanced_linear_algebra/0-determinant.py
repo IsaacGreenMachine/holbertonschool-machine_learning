@@ -8,7 +8,7 @@ def determinant(matrix):
         return 1
     if (
       matrix and matrix[0] and type(matrix) is list
-      and type(matrix[0]) is list
+      and all(type(sub) is list for sub in matrix)
       ):
         width = len(matrix)
         for height in matrix:
