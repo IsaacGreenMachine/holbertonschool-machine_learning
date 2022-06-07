@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""module for minor function"""
+"""module for adjugate function"""
 
 
 def adjugate(matrix):
