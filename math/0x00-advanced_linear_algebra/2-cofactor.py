@@ -4,16 +4,16 @@
 
 def cofactor(matrix):
     """returns the cofactor of a matrix"""
-    if (
-        matrix and matrix[0] and type(matrix) is list and
-        all(type(sub) is list for sub in matrix)
-       ):
-        width = len(matrix)
-        if matrix == [[]]:
+    if type(matrix) is not list:
+        raise TypeError("matrix must be a list of lists")
+    width = len(matrix)
+    if width == 0:
+        raise TypeError("matrix must be a list of lists")
+    for item in matrix:
+        if type(item) is not list:
+            raise TypeError("matrix must be a list of lists")
+        if len(item) != width:
             raise ValueError("matrix must be a non-empty square matrix")
-        for height in matrix:
-            if len(height) != width:
-                raise ValueError("matrix must be a non-empty square matrix")
 
     ################
         new_mat = minor(deepcopy(matrix))
@@ -29,9 +29,6 @@ def cofactor(matrix):
             # print()
         return new_mat
     ################
-
-    else:
-        raise TypeError("matrix must be a list of lists")
 
 
 def deepcopy(matrix):
