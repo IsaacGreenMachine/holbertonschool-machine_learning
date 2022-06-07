@@ -1,4 +1,9 @@
+#!/usr/bin/env python3
+"""module for determinant function"""
+
+
 def determinant(matrix):
+    """returns the determinant of a given matrix"""
     if matrix == [[]]:
         return 1
     if (
