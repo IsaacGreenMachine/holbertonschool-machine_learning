@@ -4,32 +4,27 @@
 
 def inverse(matrix):
     """returns the inverse of a matrix"""
-    if (
-        matrix and matrix[0] and type(matrix) is list and
-        all(type(sub) is list for sub in matrix)
-       ):
-        width = len(matrix)
-        if matrix == [[]]:
-            raise ValueError("matrix must be a non-empty square matrix")
-        for height in matrix:
-            if len(height) != width:
-                raise ValueError("matrix must be a non-empty square matrix")
-
-    ################
-        adj = adjugate(matrix)
-        det = determinant(matrix)
-        if det:
-            inv_det = 1 / determinant(matrix)
-            for i in range(len(matrix)):
-                for j in range(len(matrix[i])):
-                    adj[i][j] *= inv_det
-            return(adj)
-        else:
-            return None
-    ################
-
-    else:
+    if type(matrix) is not list:
         raise TypeError("matrix must be a list of lists")
+    width = len(matrix)
+    if width == 0:
+        raise TypeError("matrix must be a list of lists")
+    for item in matrix:
+        if type(item) is not list:
+            raise TypeError("matrix must be a list of lists")
+        if len(item) != width:
+            raise ValueError("matrix must be a non-empty square matrix")
+    adj = adjugate(matrix)
+    det = determinant(matrix)
+    if det:
+        inv_det = 1 / determinant(matrix)
+        for i in range(len(matrix)):
+            for j in range(len(matrix[i])):
+                adj[i][j] *= inv_det
+        return(adj)
+    else:
+        return None
+
 
 
 def adjugate(matrix):
