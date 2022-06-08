@@ -9,6 +9,8 @@ def definiteness(matrix):
         raise TypeError("matrix must be a numpy.ndarray")
     if len(matrix.shape) != 2 or matrix.shape[0] != matrix.shape[1]:
         return None
+    if not np.array_equal(matrix, matrix.T):
+        return None
     dets = []
     for i in range(1, matrix.shape[0] + 1):
         dets.append(np.linalg.det(matrix[:i, :i]))
@@ -18,7 +20,6 @@ def definiteness(matrix):
         return "Negative definite"
     elif all(x >= 0 for x in dets):
         return "Positive semi-definite"
-
     elif all(x <= 0 for x in dets):
         return "Negative semi-definite"
     else:
