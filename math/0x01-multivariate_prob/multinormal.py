@@ -4,6 +4,7 @@ import numpy as np
 
 
 class MultiNormal():
+    """class with methods to assist in multinormal distribution operations"""
     def __init__(self, data):
         """initializes mean and covariance matrix of class"""
         if type(data) is not np.ndarray or len(data.shape) != 2:
