@@ -19,11 +19,12 @@ class MultiNormal():
         """returns probability of x in multivariate normal distribution"""
         if type(x) is not np.ndarray:
             raise TypeError("x must be a numpy.ndarray")
-        if x.shape[1] is not 1:
-            raise ValueError(
-                "x must have the shape ({}, 1)".format(x.shape[0])
-                )
         D = self.mean.shape[0]
+        if len(x.shape) != 2 or x.shape[0] != D or x.shape[1] != 1:
+            raise ValueError(
+                "x must have the shape ({}, 1)".format(D)
+                )
+
         Px = (2*np.pi)**(D/2)
         Px = 1 / (Px * (np.linalg.det(self.cov)**(1/2)))
         covI = np.linalg.inv(self.cov)
