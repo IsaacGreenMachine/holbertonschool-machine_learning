@@ -8,11 +8,11 @@ class MultiNormal():
         """initializes mean and covariance matrix of class"""
         if type(data) is not np.ndarray or len(data.shape) != 2:
             raise TypeError("data must be a 2D numpy.ndarray")
-        if data.shape[0] < 2:
+        if data.shape[1] < 2:
             raise ValueError("data must contain multiple data points")
-        mean, cov = self.mean_cov(data.T)
+        mean, covar = self.mean_cov(data.T)
         self.mean = mean.T
-        self.cov = cov
+        self.cov = covar
 
     def pdf(self, x):
         """returns probability of x in multivariate normal distribution"""
@@ -32,5 +32,5 @@ class MultiNormal():
             raise ValueError("X must contain multiple data points")
         mean = (np.mean(X, axis=0).reshape(1, -1))
         stddev = X - mean
-        cov = np.matmul(stddev.T, stddev)/(X.shape[0] - 1)
-        return mean, cov
+        covar = np.matmul(stddev.T, stddev)/(X.shape[0] - 1)
+        return mean, covar
