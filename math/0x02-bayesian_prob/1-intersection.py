@@ -32,9 +32,9 @@ def intersection(x, n, P, Pr):
         raise TypeError("P must be a 1D numpy.ndarray")
     if type(Pr) is not np.ndarray or Pr.shape != P.shape:
         raise TypeError("Pr must be a numpy.ndarray with the same shape as P")
-    if np.count_nonzero((P < 0) | (P > 1)) > 0:
+    if True in ((P < 0) + (P > 1)):
         raise ValueError("All values in P must be in the range [0, 1]")
-    if np.count_nonzero((Pr < 0) | (Pr > 1)) > 0:
+    if True in ((Pr < 0) + (Pr > 1)):
         raise ValueError("All values in Pr must be in the range [0, 1]")
     return(Pr * likelihood(x, n, P))
 
