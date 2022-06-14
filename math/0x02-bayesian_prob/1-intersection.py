@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-""" module for the likelihood function"""
+""" module for the intersection function"""
 import numpy as np
 
 
