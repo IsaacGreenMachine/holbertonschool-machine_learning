@@ -4,6 +4,7 @@ import numpy as np
 
 
 def marginal(x, n, P, Pr):
+    """ returns the marginal probability of given inputs"""
     return np.sum(intersection(x, n, P, Pr))
 
 
