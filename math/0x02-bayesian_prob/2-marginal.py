@@ -4,7 +4,17 @@ import numpy as np
 
 
 def marginal(x, n, P, Pr):
-    """ returns the marginal probability of given inputs"""
+    """
+    calculates the marginal probability of obtaining the data:
+
+    x - number of patients that develop severe side effects
+    n - total number of patients observed
+    P - 1D numpy.ndarray containing the various hypothetical
+        probabilities of patients developing severe side effects
+    Pr - 1D numpy.ndarray containing the prior beliefs about P
+
+    Returns - the marginal probability of obtaining x and n
+    """
     return np.sum(intersection(x, n, P, Pr))
 
 
