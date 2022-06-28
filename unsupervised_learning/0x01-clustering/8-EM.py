@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""module for expectation_maximization function"""
+"""module of expectation_maximization function"""
 import numpy as np
 
 
@@ -8,17 +8,17 @@ def expectation_maximization(
         tol=1e-5, verbose=False
 ):
     """
-    Executes expectation maximization algorithm for
+    Executes expectation maximization algorithm in
     gaussian mixture model.
     Args:
         X: numpy.ndarray - (n, d) Data set.
         k: Positive integer, number of clusters.
         iterations: Positive integer, maximum number of iterations
-        for the algorithm.
+        in the algorithm.
         tol: Non-negative float containing tolerance of the log likelihood,
         used to determine early stopping i.e. if the difference is less
         than or equal to tol you should stop the algorithm.
-        verbose: Boolean that determines if function should print information
+        verbose: Boolean that determines if function should print details
         about the algorithm.
             If True, print "Log Likelihood after {i} iterations: {l}"
             every 10 iterations and after the last iteration, where
@@ -46,7 +46,7 @@ def expectation_maximization(
     maximization = __import__('7-maximization').maximization
 
     # Initialize priors, means, and covariance matrices
-    # for representing k gaussian distributions, init using
+    # of representing k gaussian distributions, init using
     # the K-means algorithm.
 
     priors, means, sigmas = initialize(X, k)
@@ -77,7 +77,7 @@ def expectation_maximization(
 
 
 def Verbose(iter, Lk, verbose, end=False):
-    """Verbose helper function for EM algorithm."""
+    """Verbose helper function of EM algorithm."""
 
     if verbose is False:
         return
