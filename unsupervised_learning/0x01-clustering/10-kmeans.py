@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """module for kmeans function"""
-import sklearn.cluster
+import sklearn.cluster as skcls
 
 
 def kmeans(X, k):
@@ -16,5 +16,5 @@ def kmeans(X, k):
     clss - numpy.ndarray of shape (n,) containing
         the index of the cluster in C that each data point belongs to
     """
-    centroid, label, inertia = sklearn.cluster.k_means(X, k)
+    centroid, label, inertia = skcls.k_means(X, k)
     return centroid, label
