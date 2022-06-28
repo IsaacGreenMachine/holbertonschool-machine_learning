@@ -1,6 +1,52 @@
 #!/usr/bin/env python3
 """Module for kmeans function"""
+
+
 import numpy as np
+
+
+def initialize(X, k):
+    """
+    Initializes cluster centroids for K-means.
+    Args:
+        X: numpy.ndarray - (n, d) containing the dataset that
+          will be used for K-means clustering
+            n: Number of data points.
+            d: Number of dimensions for each data point.
+        k: Positive integer containing the number of clusters.
+    Return:
+        numpy.ndarray - (k, d) containing the initialized centroids
+          for each cluster, or None on failure.
+    """
+    try:
+        if k <= 0:
+            return None
+        _, d = X.shape
+
+        low = np.amin(X, axis=0)
+        high = np.amax(X, axis=0)
+
+        return np.random.uniform(low, high, (k, d))
+    except Exception:
+        return None
+
+
+def Kassignments(X, clusters, assignments):
+    """
+    Returns list of indexes corresponding to
+    min euclidean distance of each point in X to
+    each point in clusters.
+    """
+    points, dims = X.shape
+    x = X.reshape(points, 1, dims)
+    x = x - np.repeat(clusters[np.newaxis, ...], points, axis=0)
+    dist = np.linalg.norm(x, axis=2)
+
+    mins = np.argmin(dist, axis=1)
+    if np.array_equal(mins, assignments):
+        return True, assignments
+
+    return False, mins
 
 
 def kmeans(X, k, iterations=1000):
@@ -27,25 +73,25 @@ def kmeans(X, k, iterations=1000):
     if type(iterations) is not int or iterations <= 0:
         return None, None
 
-    z = 0
-    clusters = np.random.uniform(X.min(axis=0), X.max(axis=0), (k, X.shape[1]))
-    while (z < iterations):
-        dists = []
+    clusters = initialize(X, k)
+    assignments = np.zeros((X.shape[0],))
 
-        for i in clusters:
-            # prints matrix of distances between centroid and all points
-            dists.append(np.linalg.norm(X - i, axis=1))
+    if k == 1:
+        return np.mean(X, axis=0)[np.newaxis, ...], assignments
 
-        # which cluster each point belongs to
-        mins = np.argmin(dists, axis=0)
+    for i in range(iterations):
+        done, assignments = Kassignments(X, clusters, assignments)
 
-        for count, val in enumerate(clusters):
-            if np.where(mins == count)[0].size == 0:
-                clusters[count] = np.random.uniform(
-                    X.min(axis=0), X.max(axis=0), (1, X.shape[1]))
-                # print("new cluster: ", clusters[count])
-                # print(clusters)
+        if done:
+            return clusters, assignments
+
+        for j in range(k):
+            idx = np.argwhere(assignments == j)
+            if len(idx) == 0:
+                clusters[j] = (initialize(X, 1))[0]
             else:
-                clusters[count] = np.mean(X[np.where(mins == count)], axis=0)
-        z += 1
-    return clusters, mins
+                clusters[j] = np.mean(X[idx, ...], axis=0)
+
+    _, assignments = Kassignments(X, clusters, assignments)
+
+    return clusters,
