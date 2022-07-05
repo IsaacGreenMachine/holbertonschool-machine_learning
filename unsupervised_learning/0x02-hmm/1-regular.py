@@ -34,4 +34,7 @@ def regular(P):
     if np.count_nonzero(stationary <= 0) > 0:
         return None
     else:
-        return stationary
+        if len(stationary.shape) == 1:
+            return np.array([stationary])
+        else:
+            return stationary
