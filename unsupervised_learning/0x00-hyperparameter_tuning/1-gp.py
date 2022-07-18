@@ -68,7 +68,6 @@ class GaussianProcess():
             sigma is a numpy.ndarray of shape (s,) containing the
             variance for each point in X_s, respectively
         """
-        print(X_s.shape, X_s)
         # kernel of X_init and X_init
         K = self.K
         # kernel of X_init and X_s
