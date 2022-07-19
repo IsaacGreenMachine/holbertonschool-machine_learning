@@ -1,105 +1,140 @@
 #!/usr/bin/env python3
 """
-Module contains class for performing Bayesian Optimization on
-a 1D gaussian process.
+Creates class that performs Bayesian optimization
+on a noiseless 1D Gaussian process
 """
 
 
-import numpy as np
 from scipy.stats import norm
+import numpy as np
 GP = __import__('2-gp').GaussianProcess
 
 
-class BayesianOptimization():
+class BayesianOptimization:
     """
-    Performs Bayesian optimization on a noiseless 1D Gaussian process.
+    Performs Bayesian optimization on a noiseless 1D Gaussian process
+
+    class constructor:
+        def __init__(self, f, X_init, Y_init, bounds, ac_samples, l=1,
+                     sigma_f=1, xsi=0.01, minimize=True)
+
+
+    public instance attributes:
+        f: the black box function
+        gp: an instance of the class GaussianProcess
+        X_s [numpy.ndarray of shape (ac_samples, 1)]:
+            containing all acquisition sample points,
+                evenly spaced between min and max
+            ac_samples: number of samples
+        xsi: the exploration-exploitation factor
+        minimize [boolean]: for minimization versus maximization
+
+    public instance methods:
+        def acquisition(self):
+            calculates the next best sample location
+        def optimize(self, iterations=100):
+            optimizes the black-box function
     """
-
-    def __init__(self, f, X_init, Y_init, bounds, ac_samples,
-                 l=1, sigma_f=1, xsi=0.01, minimize=True):
+    def __init__(self, f, X_init, Y_init, bounds, ac_samples, l=1,
+                 sigma_f=1, xsi=0.01, minimize=True):
         """
-        Class constructor.
+        Class constructor
 
-        Args:
-            f: Black-box function to be optimized.
-            X_init: numpy.ndarray - (t, 1) Inputs already sampled with the
-            black-box function.
-            Y_init: numpy.ndarray - (t, 1) Outputs of the black-box function
-            for each input in X_init.
-                t: Number of initial samples.
-            bounds: tuple of (min, max) representing the bounds of the space
-            in which to look for the optimal point.
-            ac_samples: Number of samples that should be analyzed during
-            acquisition.
-            l: Length parameter for the kernel.
-            sigma_f: Standard deviation given to the output of the black-box
-            function.
-            xsi: Exploration-exploitation factor for acquisition.
-            minimize: bool determining whether optimization should be performed
-            for minimization (True) or maximization (False).
-
-        Public Instance Attributes:
-            f: Black-box function.
-            gp: Instance of the class GaussianProcess.
-            X_s: numpy.ndarray - (ac_samples, 1) Acquisition sample points,
-            evenly spaced between min and max.
-            xsi: Exploration-exploitation factor.
-            minimize: Bool for minimization versus maximization.
+        parameters:
+            f [function]:
+                the black-box function to be optimized
+            X_init [numpy.ndarray of shape (t, 1)]:
+                representing the inputs sampled with the black-box function
+                t: number of samples
+            Y_init [numpy.ndarry of shape (t, 1)]:
+                representing outputs of the black-box function for each input
+            bounds [tuple of (min, max)]:
+                representing the bounds of the space to find the optimal point
+            ac_samples [int]:
+                number of samples that should be analyzed during acquisition
+            l [int or float]:
+                length parameter for the kernel
+            sigma_f [int or float]:
+                standard deviation given to output of the black-box function
+            xsi [float]:
+                the exploration-exploitation factor for acquisition
+            minimize [boolean]:
+                determines if optimization should be performed for min or max
+                True: performed for minimization
+                False: performed for maximization
         """
-        START, STOP = bounds
-
+        if type(X_init) is not np.ndarray or len(X_init.shape) != 2:
+            raise TypeError("X_init must be numpy.ndarray of shape (t, 1)")
+        t, one = X_init.shape
+        if one != 1:
+            raise TypeError("X_init must be numpy.ndarray of shape (t, 1)")
+        if type(Y_init) is not np.ndarray or len(Y_init.shape) != 2:
+            raise TypeError("Y_init must be numpy.ndarray of shape (t, 1)")
+        t_check, one = Y_init.shape
+        if one != 1 or t_check != t:
+            raise TypeError("Y_init must be numpy.ndarray of shape (t, 1)")
+        if type(bounds) is not tuple or len(bounds) != 2:
+            raise TypeError("bounds must be a tuple of (min, max)")
+        min, max = bounds
+        if type(min) is not int and type(min) is not float:
+            raise TypeError("min in bounds must be int or float")
+        if type(max) is not int and type(max) is not float:
+            raise TypeError("max in bounds must be int or float")
+        if min >= max:
+            raise ValueError("min from bounds must be less than max")
+        if type(l) is not int and type(l) is not float:
+            raise TypeError(
+                "l must be int or float to represent kernel length parameter")
+        if type(sigma_f) is not int and type(sigma_f) is not float:
+            raise TypeError(
+                "sigma_f must be int or float to represent standard deviation")
+        if type(xsi) is not int and type(xsi) is not float:
+            raise TypeError(
+                "xsi must be int or float to represent \
+                exploration-exploitation factor")
+        if type(minimize) is not bool:
+            raise TypeError("minimize must be boolean to indicate if \
+            optimization should be formed for minimization or maximization")
         self.f = f
-        self.gp = GP(X_init, Y_init, l=l, sigma_f=sigma_f)
-        self.X_s = np.linspace(START, STOP, num=ac_samples)[..., np.newaxis]
+        self.gp = GP(X_init, Y_init, l, sigma_f)
+        self.X_s = X_init
         self.xsi = xsi
         self.minimize = minimize
 
     def acquisition(self):
         """
-        Calculates the next best sample location using Expected Improvement
-        aquisition function.
+        Calculates the next best sample location
+            using the Expected Improvement acquisition function
 
-        Return: X_next, EI
-            X_next: numpy.ndarray - (1,) Next best sample point.
-            EI: numpy.ndarray - (ac_samples,) Expected improvement of each
-            potential sample.
+        returns:
+            X_next, EI
+            X_next [numpy.ndarray of shape (1,)]:
+                represents the next best sample point
+            EI [numpy.ndarray of shape (ac_samples,)]:
+                contains the expected improvement of each potential sample
         """
-
-        mu, _ = self.gp.predict(self.gp.X)
-        sample_mu, sigma = self.gp.predict(self.X_s)
-
-        if self.minimize:
-            mu_opt = np.min(mu)
-        else:
-            mu_opt = np.max(mu)
-
-        numZ = mu_opt - sample_mu - self.xsi
-        Z = numZ / sigma
-        EI = ((numZ * norm.cdf(Z)) + (sigma * norm.pdf(Z)))
-        EI[sigma == 0.0] = 0.0
-
-        return self.X_s[np.argmax(EI)], np.array(EI)
+        return None, None
 
     def optimize(self, iterations=100):
         """
-        Optimizes a black-box function.
+        Optimizes the black-box function
 
-        Args:
-            iterations: Number of iterations to perform.
+        parameters:
+            iterations [int]:
+                the maximum number of iterations to perform
 
-        Return: X_opt, Y_opt
-            X_opt: numpy.ndarray - (1,) Optimal point.
-            Y_opt: numpy.ndarray - (1,) Optimal function value.
+        If the next proposed point is one that has already been sampled,
+            optimization should be stopped early.
+
+        returns:
+            X_opt, Y_opt
+            X_opt [numpy.ndarray of shape (1,)]:
+                representing the optimal point
+            Y_opt [numpy.ndarray of shape (1,)]:
+                representing the optimal function value
         """
-
-        for i in range(iterations):
-            X_next, _ = self.acquisition()
-
-            if X_next in self.gp.X:
-                break
-
-            Y = self.f(X_next)
-            self.gp.update(X_next, Y)
-
-        idx = np.argmin(self.gp.Y)
-        return self.gp.X[idx], np.array(self.gp.Y[idx])
+        if type(iterations) is not int:
+            raise TypeError("iterations must be an integer")
+        if iterations <= 0:
+            raise ValueError("iterations must be a positive number")
+        return None, None
