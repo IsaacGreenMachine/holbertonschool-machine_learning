@@ -27,7 +27,7 @@ def autoencoder(input_dims, filters, latent_dims):
     which uses sigmoid
     """
     # encoder
-    encode_input = keras.Input(shape=(input_dims,))
+    encode_input = keras.Input(shape=input_dims)
     encode = keras.layers.Conv2D(
         filters[0], 3, padding='same', activation='relu')(encode_input)
     encode = keras.layers.MaxPool2D(padding='same')(encode)
@@ -39,7 +39,7 @@ def autoencoder(input_dims, filters, latent_dims):
     encoder.compile(optimizer='adam', loss='binary_crossentropy')
 
     # decoder
-    decode_input = keras.Input(shape=(latent_dims,))
+    decode_input = keras.Input(shape=latent_dims)
     decode = keras.layers.Conv2D(
         filters[0], 3, padding='same', activation='relu')(decode_input)
     decode = keras.layers.UpSampling2D()(decode)
