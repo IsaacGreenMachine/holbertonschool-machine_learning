@@ -1,52 +1,54 @@
 #!/usr/bin/env python3
-"""
-Module contains function that creates an autoencoder network.
-"""
-
-
+"""module for autoencoder function"""
 import tensorflow.keras as keras
 
 
 def autoencoder(input_dims, hidden_layers, latent_dims):
     """
-    Creates an autoencoder network.
+    creates an autoencoder
 
-    Args:
-        input_dims: Integer - Dimensions of the model input.
-        hidden_layers: List - Number of nodes for each hidden layer in
-        the encoder.
-        latent_dims: Integer - Dimensions of the latent space representation.
+    input_dims is an integer containing the dimensions of the model input
 
-    Return: encoder, decoder, autoencoder
-        encoder: Encoder model.
-        decoder: Decoder model.
-        autoencoder: Full autoencoder model.
+    hidden_layers is a list containing the number of nodes for each hidden
+    layer in the encoder, respectively
+        the hidden layers should be reversed for the decoder
+
+    latent_dims is an integer containing the dimensions of the latent
+    space representation
+
+    Returns: encoder, decoder, auto
+        encoder is the encoder model
+        decoder is the decoder model
+        auto is the full autoencoder model
+
+    compiled using adam optimization and binary cross-entropy loss
+    All layers use relu activation except for last decoder layer,
+    which uses sigmoid
+
     """
+    encode_input = keras.Input(input_dims)
+    decode_input = keras.Input(latent_dims)
 
-    Dense = keras.layers.Dense
+    encoder = create_model(encode_input, hidden_layers, latent_dims, 'relu')
 
-    input_layer = keras.Input(shape=(input_dims,))
-    encoded_input = keras.Input(shape=(latent_dims,))
-    decoded_input = encoded_input
+    reverse = hidden_layers.copy()
+    reverse.reverse()
+    decoder = create_model(decode_input, reverse, input_dims, 'sigmoid')
 
-    encoded_layers = Dense(hidden_layers[0], activation="relu")(input_layer)
-
-    for nodes in hidden_layers[1:]+[latent_dims]:
-        encoded_layers = Dense(nodes, activation="relu")(encoded_layers)
-
-    decoded = Dense(hidden_layers[-1], activation="relu")(decoded_input)
-
-    for x, nodes in enumerate(list(reversed(hidden_layers[:-1]))+[input_dims]):
-        if x == len(hidden_layers) - 1:
-            decoded = Dense(nodes, activation="sigmoid")(decoded)
-        else:
-            decoded = Dense(nodes, activation="relu")(decoded)
-
-    encoder = keras.Model(input_layer, encoded_layers)
-
-    decoder = keras.Model(encoded_input, decoded)
-
-    autoencoder = keras.Model(input_layer, decoder(encoder(input_layer)))
-    autoencoder.compile(optimizer="adam", loss="binary_crossentropy")
+    autoencoder = keras.Model(encode_input, decoder(encoder(encode_input)))
+    autoencoder.compile(optimizer='adam', loss='binary_crossentropy')
 
     return encoder, decoder, autoencoder
+
+
+def create_model(input, layers, output_shape, act):
+    """
+    creates a model from layer info
+    """
+    lay = keras.layers.Dense(layers[0], activation='relu')(input)
+    for layer_size in layers[1:]:
+        lay = keras.layers.Dense(layer_size, activation='relu')(lay)
+    lay = keras.layers.Dense(output_shape, activation=act)(lay)
+    model = keras.Model(input, lay)
+    model.compile(optimizer='adam', loss='binary_crossentropy')
+    return model
