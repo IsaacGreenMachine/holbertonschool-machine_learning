@@ -26,8 +26,8 @@ def autoencoder(input_dims, hidden_layers, latent_dims):
     which uses sigmoid
 
     """
-    encode_input = keras.Input(input_dims)
-    decode_input = keras.Input(latent_dims)
+    encode_input = keras.Input(shape=(input_dims,))
+    decode_input = keras.Input(shape=(latent_dims,))
 
     encoder = create_model(encode_input, hidden_layers, latent_dims, 'relu')
 
