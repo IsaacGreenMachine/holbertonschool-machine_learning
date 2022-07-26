@@ -41,7 +41,7 @@ def autoencoder(input_dims, filters, latent_dims):
     # decoder
     decode_input = keras.Input(shape=latent_dims)
     decode = keras.layers.Conv2D(
-        filters[0], 3, padding='same', activation='relu')(decode_input)
+        filters[-1], 3, padding='same', activation='relu')(decode_input)
     decode = keras.layers.UpSampling2D()(decode)
     for filter in filters[:1:-1]:
         decode = keras.layers.Conv2D(
@@ -49,7 +49,7 @@ def autoencoder(input_dims, filters, latent_dims):
         decode = keras.layers.UpSampling2D()(decode)
     # The second to last convolution should instead use valid padding
     decode = keras.layers.Conv2D(
-        filters[1], 3, padding='valid', activation='relu')(decode)
+        filters[0], 3, padding='valid', activation='relu')(decode)
     decode = keras.layers.UpSampling2D()(decode)
     # The last convolution should have the same number of filters as the number
     # of channels in input_dims with sigmoid activation and no upsampling
@@ -57,7 +57,6 @@ def autoencoder(input_dims, filters, latent_dims):
         input_dims[-1], 3, padding='same', activation='sigmoid')(decode)
     decoder = keras.Model(decode_input, decode)
     decoder.compile(optimizer='adam', loss='binary_crossentropy')
-
     # autoencoder
     autoencoder = keras.Model(encode_input, decoder(encoder(encode_input)))
     autoencoder.compile(optimizer='adam', loss='binary_crossentropy')
