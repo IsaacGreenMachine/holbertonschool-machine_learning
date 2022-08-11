@@ -88,7 +88,7 @@ class BidirectionalCell():
         outputs = []
         for timeStep in H:
             outputs.append(self.softmax((timeStep @ self.Wy) + self.by))
-        return(np.stack(outputs))
+        return np.stack(outputs)
 
     def softmax(self, x):
         """softmax activation function"""
