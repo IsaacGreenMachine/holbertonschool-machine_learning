@@ -34,8 +34,6 @@ def bi_rnn(bi_cell, X, h_0, h_t):
     H = []
 
     for timeStep in range(X.shape[0]):
-        print(f"timeStep : {timeStep}, X.shape[0] : {X.shape[0]}")
-    # forward
         if timeStep == 0:
             h_next = bi_cell.forward(h_0, X[0])
             h_prev = bi_cell.backward(h_t, X[X.shape[0] - timeStep - 1])
