@@ -36,10 +36,10 @@ def bi_rnn(bi_cell, X, h_0, h_t):
     for timeStep in range(X.shape[0]):
         if timeStep == 0:
             h_next = bi_cell.forward(h_0, X[0])
-            h_prev = bi_cell.backward(h_t, X[X.shape[0] - timeStep - 1])
+            h_prev = bi_cell.backward(h_t, X[X.shape[0] - 1])
         else:
             h_next = bi_cell.forward(h_next, X[timeStep])
-            h_prev = bi_cell.backward(h_prev, X[X.shape[0] - 1])
+            h_prev = bi_cell.backward(h_prev, X[X.shape[0] - timeStep - 1])
         forwards.append(h_next)
         backwards.append(h_prev)
     # concatenating outputs from forward and
