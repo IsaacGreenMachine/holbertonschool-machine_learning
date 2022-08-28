@@ -31,5 +31,4 @@ def uni_bleu(references, sentence):
             max = sum(word_count.values())
             out = max / unigrams
 
-    print(bp, out)
     return bp * out
