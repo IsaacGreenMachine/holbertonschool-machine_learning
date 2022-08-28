@@ -37,6 +37,7 @@ def ngram_bleu(references, sentence, n):
 
 
 def list2ngram(lst, n):
+    """converst a list of words into a list of ngrams"""
     bi_refs_in = []
     for i in range(len(lst) - (n - 1)):
         word = ""
