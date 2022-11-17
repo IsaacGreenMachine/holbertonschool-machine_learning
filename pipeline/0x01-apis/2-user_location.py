@@ -26,7 +26,7 @@ if __name__ == '__main__':
             remain = dt.minute + 60 - now.minute
         else:
             remain = dt.minute - now.minute
-        print(f"Reset in {remain} min")
+        print("Reset in {} min".format(remain))
     elif r.status_code == 404:
         print("Not found")
     else:
