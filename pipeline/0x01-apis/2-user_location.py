@@ -10,14 +10,9 @@ where X is minutes from now and the value of X-Ratelimit-Reset
 import sys
 import requests
 import datetime
-
 if __name__ == '__main__':
     useraddress = sys.argv[1]
-    usr = 'IsaacGreenMachine'
-    pasw = ("github_pat_11ABQUA2Y0WGJxv7Zjdl1E"
-            "_deS6o1oQANltRoJyJWYG2mN9Z9yMJa8"
-            "K1e8WoTKGrdrIIYPXUFR0k1ZruKs")
-    r = requests.get(useraddress, auth=(usr, pasw))
+    r = requests.get(useraddress)
     if r.status_code == 403:
         dt = datetime.datetime.fromtimestamp(
             int(r.headers['X-RateLimit-Reset']))
