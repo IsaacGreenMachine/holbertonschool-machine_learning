@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 prints the location of a specific user by using the GitHub API
 args[0] : user  with the full API URL
