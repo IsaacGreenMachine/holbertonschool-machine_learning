@@ -1,32 +1,28 @@
 #!/usr/bin/env python3
 """
-Fetches location of a specific github user
-via the GitHub API.
+prints the location of a specific user by using the GitHub API
+args[1] : GitHub user with the full API URL
+    example: ./2-user_location.py https://api.github.com/users/holbertonschool
+    If the user doesn’t exist, print Not found
+    If the status code is 403, print "R"eset in X min"
+    where X is minutes from now and the value of X-Ratelimit-Reset
 """
-
-
 import sys
 import requests
-from time import time
-
-if __name__ == "__main__":
-
-    if len(sys.argv) < 2:
-        exit()
-
-    path = sys.argv[1]
-
-    info = requests.get(path)
-
-    if info.status_code == 403:
-        tm = int(info.headers["X-Ratelimit-Reset"])
-        mins = round((tm - time()) / 60)
-        print("Reset in {} min".format(mins))
-    elif info.status_code == 404:
+import datetime
+if __name__ == '__main__':
+    useraddress = sys.argv[1]
+    r = requests.get(useraddress)
+    if r.status_code == 403:
+        dt = datetime.datetime.fromtimestamp(
+            int(r.headers['X-RateLimit-Reset']))
+        now = datetime.datetime.now()
+        if dt.minute < now.minute:
+            remain = dt.minute + 60 - now.minute
+        else:
+            remain = dt.minute - now.minute
+        print("Reset in {} min".format(remain))
+    elif r.status_code == 404:
         print("Not found")
     else:
-        loc = info.json()["location"]
-        if loc:
-            print(loc)
-        else:
-            print("Not found")
+        print(r.json()['location'])
