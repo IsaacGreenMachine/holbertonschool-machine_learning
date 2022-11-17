@@ -2,15 +2,16 @@
 """
 prints the location of a specific user by using the GitHub API
 args[0] : user  with the full API URL
-  example: ./2-user_location.py https://api.github.com/users/holbertonschool
-  If the user doesn’t exist, print Not found
-  If the status code is 403, print "R"eset in X min"
-    where X is minutes from now and the value of X-Ratelimit-Reset
+example: ./2-user_location.py https://api.github.com/users/holbertonschool
+If the user doesn’t exist, print Not found
+If the status code is 403, print "R"eset in X min"
+where X is minutes from now and the value of X-Ratelimit-Reset
 """
+import sys
+import requests
+import datetime
+
 if __name__ == '__main__':
-    import sys
-    import requests
-    import datetime
     useraddress = sys.argv[1]
     usr = 'IsaacGreenMachine'
     pasw = ("github_pat_11ABQUA2Y0WGJxv7Zjdl1E"
