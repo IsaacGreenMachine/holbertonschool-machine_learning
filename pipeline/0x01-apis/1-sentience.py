@@ -17,7 +17,10 @@ def sentientPlanets():
         specieslink = req.json()['next']
     sentients = []
     for specie in species:
-        if specie['designation'] == 'sentient':
+        if (
+            specie['designation'] == 'sentient' or
+            specie['classification'] == 'sentient'
+                ):
             try:
                 sentients.append(requests.get(
                     specie['homeworld']).json()['name'])
