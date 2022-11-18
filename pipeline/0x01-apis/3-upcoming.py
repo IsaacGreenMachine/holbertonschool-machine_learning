@@ -16,9 +16,9 @@ import time
 import datetime
 if __name__ == '__main__':
     nearest_launch = requests.get(
-        'https://api.spacexdata.com/latest/launches/next'
+        'https://api.spacexdata.com/v4/launches/next'
         ).json()
-    '''
+    """
     current_time = time.mktime(datetime.datetime.today().timetuple())
     nearest = 2000000000
     r = requests.get('https://api.spacexdata.com/latest/launches')
@@ -26,7 +26,7 @@ if __name__ == '__main__':
         if i['date_unix'] > current_time and i['date_unix'] < nearest:
             nearest = i['date_unix']
             nearest_launch = i
-    '''
+    """
     launchname = nearest_launch['name']
     date = nearest_launch['date_local']
     rkt = requests.get(
