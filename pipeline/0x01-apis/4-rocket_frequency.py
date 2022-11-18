@@ -34,4 +34,4 @@ if __name__ == '__main__':
         for i in rocketlist:
             launch_dict.pop(i)
         for i in rocketlist:
-            print("{}: {}".format(i, max))
+            print("{}: {}".format(i, max + 1))
