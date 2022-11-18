@@ -6,6 +6,7 @@ args[1] : GitHub user with the full API URL
     If the user doesn’t exist, print Not found
     If the status code is 403, print "R"eset in X min"
     where X is minutes from now and the value of X-Ratelimit-Reset
+MAKE SURE FILE IS EXECUTABLE
 """
 import sys
 import requests
