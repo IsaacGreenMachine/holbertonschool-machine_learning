@@ -3,6 +3,7 @@ DROP TRIGGER IF EXISTS reset_email;
 CREATE TRIGGER reset_email
 BEFORE UPDATE ON users
 FOR EACH ROW
-IF OLD.email != NEW.email
+-- IF OLD.email != NEW.email
+IF STRCMP(old.email, new.email) != 0
 THEN SET NEW.valid_email = 0;
 END IF;
