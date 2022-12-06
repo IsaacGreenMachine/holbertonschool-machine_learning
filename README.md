@@ -3,15 +3,6 @@
 # Machine Learning
 A repository containing several projects from holberton school's ML curriculum. Projects are divided into four categories:
 
-## Dependencies:
-| Library/Framework  | Version |
-| ------------------ | ------- |
-| Python             | ^3.7.3  |
-| numpy              | ^1.19.5 |
-| tensorflow         | ^2.6.0  |
-| keras              | ^2.6.0  |
-| cv2                | ^4.1.0  |
-
 ## [Math](https://github.com/IsaacGreenMachine/holbertonschool-machine_learning/tree/main/math)
 A repository containing several projects that cover the calculus, linear/matrix algebra and statistics required to implement machine learning in the following repositories.
 | Projects | Description |
@@ -40,9 +31,6 @@ Several projects that implement supervised models including regression and class
 
 ## [Unsupervised Learning]()
 ## [Reinforcement Learning]()
-
-
-
 
 ## Best Projects!
 ### [Some Project]()
