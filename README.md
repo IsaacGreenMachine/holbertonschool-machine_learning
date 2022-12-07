@@ -29,9 +29,18 @@ Several projects that implement supervised models including regression and class
 | [Keras](https://github.com/IsaacGreenMachine/holbertonschool-machine_learning/tree/main/supervised_learning/0x02-keras) |
 | [Transfer Learning](https://github.com/IsaacGreenMachine/holbertonschool-machine_learning/tree/main/supervised_learning/0x02-transfer_learning) |
 
-## [Unsupervised Learning]()
+## [Unsupervised Learning](https://github.com/IsaacGreenMachine/holbertonschool-machine_learning/tree/main/unsupervised_learning)
 ## [Reinforcement Learning]()
 
 ## Best Projects!
 ### [Some Project]()
 ![YoloV3](https://miro.medium.com/max/626/1*tZXkFkkK2pM2SnxWTZmerA.png)
+
+## Dependencies:
+| Library/Framework  | Version |
+| ------------------ | ------- |
+| Python             | ^3.7.3  |
+| numpy              | ^1.19.5 |
+| tensorflow         | ^2.6.0  |
+| keras              | ^2.6.0  |
+| cv2                | ^4.1.0  |
